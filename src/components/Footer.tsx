@@ -1,9 +1,6 @@
-
 import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
-
 const Footer = () => {
-  return (
-    <footer className="bg-vendeai text-white">
+  return <footer className="bg-vendeai text-white">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
@@ -13,9 +10,7 @@ const Footer = () => {
             <p className="text-gray-400 mb-4">
               Transformando pequenos e médios negócios com automação de vendas inteligente.
             </p>
-            <p className="text-sm text-gray-400">
-              © 2023 Vendigit. Todos os direitos reservados.
-            </p>
+            <p className="text-sm text-gray-400">© 2025 Vendigit. Todos os direitos reservados.</p>
           </div>
           
           <div>
@@ -72,8 +67,6 @@ const Footer = () => {
           <p>Desenvolvido com ❤️ pela <span className="text-vendeai-gold">Vendigit</span> - Transformando negócios com tecnologia.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
