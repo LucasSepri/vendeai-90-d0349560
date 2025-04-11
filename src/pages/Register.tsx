@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Building, User, Mail, Lock, CheckCircle, ArrowLeft } from "lucide-react";
+import { Building, User, Mail, Lock, CheckCircle, ArrowLeft, Users } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const registerSchema = z.object({
@@ -17,6 +17,7 @@ const registerSchema = z.object({
   ownerName: z.string().min(1, "Nome do responsável é obrigatório"),
   email: z.string().email("E-mail inválido").min(1, "E-mail é obrigatório"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+  referralCode: z.string().optional(),
   plan: z.enum(["free", "pro", "premium"], {
     required_error: "Selecione um plano",
   }),
@@ -29,9 +30,27 @@ const Register = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [ipAddress, setIpAddress] = useState("");
   
   // Get the plan from URL state if available
   const preselectedPlan = location.state?.plan || "free";
+
+  // Get user's IP address
+  useEffect(() => {
+    const getIpAddress = async () => {
+      try {
+        const response = await fetch("https://api.ipify.org?format=json");
+        const data = await response.json();
+        setIpAddress(data.ip);
+      } catch (error) {
+        console.error("Failed to get IP address:", error);
+        // Fallback to a generated IP for development
+        setIpAddress("127.0.0.1");
+      }
+    };
+    
+    getIpAddress();
+  }, []);
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -40,6 +59,7 @@ const Register = () => {
       ownerName: "",
       email: "",
       password: "",
+      referralCode: "",
       plan: preselectedPlan,
     },
   });
@@ -48,24 +68,80 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      console.log("Register attempt with:", data);
+      // Generate a unique activation key (this would be stored securely, not visible to user)
+      const activationKey = crypto.randomUUID();
       
-      // Simulate API call - would generate activation key on backend
-      // The key would be associated with email + IP + plan
-      setTimeout(() => {
-        // Generate a UUID (this would happen on backend)
-        const dummyActivationKey = crypto.randomUUID();
-        console.log("Generated activation key (invisible to user):", dummyActivationKey);
-        
+      // Generate a referral code
+      const referralCode = "VENDE" + Math.floor(1000 + Math.random() * 9000);
+      
+      // Check if a referral code was used
+      const usedReferralCode = data.referralCode ? data.referralCode.trim() : null;
+      
+      // Store user data in localStorage (in a real app, this would go to a backend)
+      const userData = {
+        companyName: data.companyName,
+        ownerName: data.ownerName,
+        email: data.email,
+        password: data.password, // In a real app, this would be hashed
+        plan: data.plan,
+        ipAddress: ipAddress,
+        activationKey: activationKey,
+        referralCode: referralCode,
+        usedReferralCode: usedReferralCode,
+        referrals: 0,
+        registrationDate: new Date().toISOString(),
+        isActive: true
+      };
+      
+      // Store user in "database" (localStorage)
+      const existingUsers = JSON.parse(localStorage.getItem('vendeai_users') || '[]');
+      
+      // Check if email already exists
+      const emailExists = existingUsers.some((user: any) => user.email === data.email);
+      if (emailExists) {
         toast({
-          title: "Cadastro realizado com sucesso!",
-          description: "Bem-vindo à VendeAI. Você já pode começar a usar a plataforma.",
+          title: "E-mail já cadastrado",
+          description: "Este e-mail já possui uma conta. Faça login.",
+          variant: "destructive"
         });
-        
-        // Redirect to dashboard or success page
-        navigate("/dashboard");
         setIsLoading(false);
-      }, 1500);
+        navigate("/login");
+        return;
+      }
+      
+      // Add user to "database"
+      existingUsers.push(userData);
+      localStorage.setItem('vendeai_users', JSON.stringify(existingUsers));
+      
+      // If a referral code was used, update the referrer's referral count
+      if (usedReferralCode) {
+        const updatedUsers = existingUsers.map((user: any) => {
+          if (user.referralCode === usedReferralCode) {
+            return {
+              ...user,
+              referrals: (user.referrals || 0) + 1
+            };
+          }
+          return user;
+        });
+        localStorage.setItem('vendeai_users', JSON.stringify(updatedUsers));
+      }
+      
+      // Store current user for session
+      localStorage.setItem('vendeai_currentUser', JSON.stringify({
+        email: data.email,
+        referralCode: referralCode,
+        ipAddress: ipAddress
+      }));
+      
+      toast({
+        title: "Cadastro realizado com sucesso!",
+        description: "Bem-vindo à VendeAI. Faça login para acessar sua conta.",
+      });
+      
+      // Redirect to login page
+      navigate("/login");
+      setIsLoading(false);
     } catch (error) {
       toast({
         title: "Erro ao criar conta",
@@ -210,6 +286,28 @@ const Register = () => {
                             {...field}
                             type="password"
                             placeholder="Mínimo 6 caracteres"
+                            className="pl-10"
+                            disabled={isLoading}
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="referralCode"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Código de indicação (opcional)</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Users className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Input
+                            {...field}
+                            placeholder="Ex: VENDE1234"
                             className="pl-10"
                             disabled={isLoading}
                           />
