@@ -62,9 +62,7 @@ const Dashboard = () => {
                   alt="Vendigit Logo" 
                   className="h-8"
                 />
-                <span className="text-xl font-semibold text-white">
-                  Vende<span className="text-vendeai-gold">AI</span>
-                </span>
+                <span className="text-2xl font-semibold text-white mr-2">Vende<span className="text-vendeai-gold">AI</span></span>
               </div>
             </Link>
           </div>
@@ -132,10 +130,10 @@ const Dashboard = () => {
         </aside>
         
         {/* Main content */}
-        <main className="flex-1 p-6 overflow-auto">
+        <main className="flex-1 p-6 overflow-auto bg-vendeai">
           <div className="max-w-6xl mx-auto">
             {/* Welcome section */}
-            <div className="bg-vendeai-darkgray rounded-lg p-6 mb-6">
+            <div className="bg-vendeai-darkgray rounded-lg p-6 mb-6 border border-vendeai-gold/20">
               <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
                 Bem-vindo ao VendeAI!
               </h1>
@@ -146,7 +144,7 @@ const Dashboard = () => {
             </div>
             
             {/* Referral progress */}
-            <div className="bg-vendeai-darkgray rounded-lg p-6 mb-8">
+            <div className="bg-vendeai-darkgray rounded-lg p-6 mb-8 border border-vendeai-gold/20">
               <div className="flex items-center gap-3 mb-4">
                 <Gift className="text-vendeai-gold h-6 w-6" />
                 <h2 className="text-xl font-bold text-white">Programa de Indicação</h2>

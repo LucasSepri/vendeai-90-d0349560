@@ -107,17 +107,17 @@ const Login = () => {
           <p className="text-vendeai-lightgray text-sm mt-2">por Vendigit</p>
         </div>
         
-        <Card className="border-vendeai-gold/20 shadow-lg">
+        <Card className="border-vendeai-gold/20 shadow-lg bg-vendeai-darkgray text-white">
           <CardHeader>
-            <CardTitle className="text-vendeai text-2xl">Acessar sua conta</CardTitle>
-            <CardDescription>
+            <CardTitle className="text-white text-2xl">Acessar sua conta</CardTitle>
+            <CardDescription className="text-vendeai-lightgray">
               Digite suas credenciais para acessar a plataforma
             </CardDescription>
           </CardHeader>
           <CardContent>
             {errorMessage && (
-              <div className="mb-4 p-3 bg-red-50 text-red-800 rounded-md flex items-start">
-                <AlertTriangle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+              <div className="mb-4 p-3 bg-red-900/30 text-red-200 rounded-md flex items-start border border-red-500/30">
+                <AlertTriangle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0 text-red-400" />
                 <p className="text-sm">{errorMessage}</p>
               </div>
             )}
@@ -129,20 +129,20 @@ const Login = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>E-mail</FormLabel>
+                      <FormLabel className="text-white">E-mail</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Mail className="absolute left-3 top-2.5 h-5 w-5 text-vendeai-gold" />
                           <Input
                             {...field}
                             placeholder="seu@email.com.br"
                             type="email"
-                            className="pl-10"
+                            className="pl-10 bg-vendeai border-vendeai-gold/20 text-white placeholder:text-vendeai-lightgray/50"
                             disabled={isLoading}
                           />
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-400" />
                     </FormItem>
                   )}
                 />
@@ -152,20 +152,20 @@ const Login = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Senha</FormLabel>
+                      <FormLabel className="text-white">Senha</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Lock className="absolute left-3 top-2.5 h-5 w-5 text-vendeai-gold" />
                           <Input
                             {...field}
                             type="password"
                             placeholder="********"
-                            className="pl-10"
+                            className="pl-10 bg-vendeai border-vendeai-gold/20 text-white placeholder:text-vendeai-lightgray/50"
                             disabled={isLoading}
                           />
                         </div>
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-400" />
                     </FormItem>
                   )}
                 />
@@ -198,7 +198,7 @@ const Login = () => {
         
         <div className="mt-6 text-center">
           <div className="flex items-center gap-2 justify-center text-vendeai-lightgray">
-            <AlertTriangle size={16} />
+            <AlertTriangle size={16} className="text-vendeai-gold" />
             <p className="text-xs">Acesso exclusivo para usuários registrados</p>
           </div>
           <p className="text-xs text-vendeai-lightgray mt-2">
