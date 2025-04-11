@@ -288,15 +288,15 @@ const Dashboard = () => {
               <CardContent>
                 <div className="grid md:grid-cols-3 gap-4">
                   {userData?.plan === 'free' && <>
-                      <div className="p-4 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
+                      <div className="p-4 rounded-lg border border-vendeai-gold/30 bg-vendeai-gold">
                         <h3 className="font-medium text-white mb-2">Funil básico</h3>
                         <p className="text-sm text-vendeai-lightgray">Crie um funil de vendas básico com IA</p>
                       </div>
-                      <div className="p-4 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
+                      <div className="p-4 rounded-lg border border-vendeai-gold/30 bg-vendeai-gold">
                         <h3 className="font-medium text-white mb-2">1 script/mês</h3>
                         <p className="text-sm text-vendeai-lightgray">Gere um script de vendas por mês</p>
                       </div>
-                      <div className="p-4 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
+                      <div className="p-4 rounded-lg border border-vendeai-gold/30 bg-vendeai-gold">
                         <h3 className="font-medium text-white mb-2">100 mensagens/mês</h3>
                         <p className="text-sm text-vendeai-lightgray">Limite de 100 mensagens mensais</p>
                       </div>
@@ -333,7 +333,7 @@ const Dashboard = () => {
                     </>}
                   
                   {userData?.plan !== 'premium' && <div className="md:col-span-3 mt-2">
-                      <Button className="gradient-gold">
+                      <Button className="gradient-gold text-vendeai-foreground">
                         Fazer upgrade para Premium
                       </Button>
                     </div>}
