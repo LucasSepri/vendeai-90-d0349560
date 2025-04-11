@@ -1,6 +1,7 @@
 
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const PricingSection = () => {
   const plans = [
@@ -16,6 +17,7 @@ const PricingSection = () => {
         "Suporte por email"
       ],
       cta: "Começar Grátis",
+      planId: "free",
       popular: false
     },
     {
@@ -33,6 +35,7 @@ const PricingSection = () => {
         "Suporte prioritário"
       ],
       cta: "Escolher Plano",
+      planId: "pro",
       popular: true
     },
     {
@@ -50,6 +53,7 @@ const PricingSection = () => {
         "Suporte VIP 24/7"
       ],
       cta: "Escolher Plano",
+      planId: "premium",
       popular: false
     }
   ];
@@ -104,8 +108,11 @@ const PricingSection = () => {
                 
                 <Button 
                   className={`w-full ${plan.popular ? 'btn-primary' : 'btn-secondary'}`}
+                  asChild
                 >
-                  {plan.cta}
+                  <Link to="/register" state={{ plan: plan.planId }}>
+                    {plan.cta}
+                  </Link>
                 </Button>
               </div>
             </div>
@@ -114,6 +121,7 @@ const PricingSection = () => {
         
         <div className="text-center mt-12 text-vendeai-gray">
           <p>Precisa de mais recursos? <a href="#" className="text-vendeai-gold font-medium">Entre em contato</a> para um plano personalizado.</p>
+          <p className="text-sm mt-2">Use de forma exclusiva. Indique para ganhar benefícios.</p>
         </div>
       </div>
     </section>

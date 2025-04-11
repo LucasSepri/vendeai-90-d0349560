@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,10 +16,10 @@ const NavigationBar = () => {
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <a href="/" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <span className="text-2xl font-semibold text-white mr-2">Vende<span className="text-vendeai-gold">AI</span></span>
               <span className="text-xs text-vendeai-gold">por Vendigit</span>
-            </a>
+            </Link>
           </div>
           
           {/* Desktop Navigation */}
@@ -27,7 +28,14 @@ const NavigationBar = () => {
             <a href="#como-funciona" className="text-white hover:text-vendeai-gold transition duration-300">Como Funciona</a>
             <a href="#planos" className="text-white hover:text-vendeai-gold transition duration-300">Planos</a>
             <a href="#depoimentos" className="text-white hover:text-vendeai-gold transition duration-300">Depoimentos</a>
-            <Button className="btn-primary">Começar Grátis</Button>
+            <div className="flex items-center gap-4">
+              <Link to="/login" className="text-white hover:text-vendeai-gold transition duration-300">
+                Login
+              </Link>
+              <Button className="btn-primary" asChild>
+                <Link to="/register">Começar Grátis</Link>
+              </Button>
+            </div>
           </nav>
           
           {/* Mobile menu button */}
@@ -47,7 +55,12 @@ const NavigationBar = () => {
               <a href="#como-funciona" className="text-white hover:text-vendeai-gold transition duration-300 py-2" onClick={toggleMenu}>Como Funciona</a>
               <a href="#planos" className="text-white hover:text-vendeai-gold transition duration-300 py-2" onClick={toggleMenu}>Planos</a>
               <a href="#depoimentos" className="text-white hover:text-vendeai-gold transition duration-300 py-2" onClick={toggleMenu}>Depoimentos</a>
-              <Button className="btn-primary w-full mt-2">Começar Grátis</Button>
+              <Link to="/login" className="text-white hover:text-vendeai-gold transition duration-300 py-2" onClick={toggleMenu}>
+                Login
+              </Link>
+              <Button className="btn-primary w-full mt-2" asChild>
+                <Link to="/register" onClick={toggleMenu}>Começar Grátis</Link>
+              </Button>
             </div>
           </nav>
         )}
