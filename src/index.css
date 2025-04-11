@@ -107,7 +107,7 @@
   }
   
   .gradient-gold {
-    @apply bg-gradient-to-r from-vendeai-gold to-vendeai-lightgold text-white;
+    @apply bg-gradient-to-r from-vendeai-gold to-vendeai-lightgold;
   }
   
   .btn-primary {

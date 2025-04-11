@@ -22,7 +22,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -34,54 +33,27 @@ const Login = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
-    setErrorMessage(null);
     
+    // Simulate login verification (replace with actual auth logic)
     try {
       console.log("Login attempt with:", data);
       
-      // Simulate login verification and IP checking
-      // In a real implementation, you would:
-      // 1. Check if the email exists in the database
-      // 2. Verify the password
-      // 3. Verify the IP matches the registration IP
-      
-      // For demo purposes, we're simulating a successful login after validation
-      const emailExists = true; // This would come from your backend
-      const ipMatches = true; // This would be checked on your backend
-      
-      if (!emailExists) {
-        setErrorMessage("Conta não encontrada. Verifique seus dados ou crie uma conta.");
-        setIsLoading(false);
-        return;
-      }
-      
-      if (!ipMatches) {
-        setErrorMessage("Acesso negado. Esta conta só pode ser acessada do IP original de cadastro.");
-        toast({
-          variant: "destructive",
-          title: "Acesso negado",
-          description: "Por segurança, esta conta só pode ser acessada do IP original de cadastro. Entre em contato com o suporte se precisar de ajuda.",
-        });
-        setIsLoading(false);
-        return;
-      }
-      
-      // Simulate server delay
+      // Simulate a successful login
       setTimeout(() => {
         toast({
           title: "Login bem-sucedido",
           description: "Bem-vindo ao VendeAI!",
         });
-        
-        // Redirect to dashboard
         navigate("/dashboard");
         setIsLoading(false);
       }, 1500);
       
+      // For future implementation: IP validation would happen here
+      // If IP doesn't match, show warning and require 2FA
     } catch (error) {
       toast({
         title: "Erro ao fazer login",
-        description: "Ocorreu um problema durante o processo de login. Tente novamente.",
+        description: "Verifique suas credenciais e tente novamente",
         variant: "destructive"
       });
       setIsLoading(false);
@@ -107,21 +79,14 @@ const Login = () => {
           <p className="text-vendeai-lightgray text-sm mt-2">por Vendigit</p>
         </div>
         
-        <Card className="border-vendeai-gold/20 shadow-lg bg-vendeai-darkgray text-white">
+        <Card className="border-vendeai-gold/20 shadow-lg">
           <CardHeader>
-            <CardTitle className="text-white text-2xl">Acessar sua conta</CardTitle>
-            <CardDescription className="text-vendeai-lightgray">
+            <CardTitle className="text-vendeai text-2xl">Acessar sua conta</CardTitle>
+            <CardDescription>
               Digite suas credenciais para acessar a plataforma
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {errorMessage && (
-              <div className="mb-4 p-3 bg-red-900/30 text-red-200 rounded-md flex items-start border border-red-500/30">
-                <AlertTriangle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0 text-red-400" />
-                <p className="text-sm">{errorMessage}</p>
-              </div>
-            )}
-            
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
@@ -129,20 +94,20 @@ const Login = () => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-white">E-mail</FormLabel>
+                      <FormLabel>E-mail</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Mail className="absolute left-3 top-2.5 h-5 w-5 text-vendeai-gold" />
+                          <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                           <Input
                             {...field}
                             placeholder="seu@email.com.br"
                             type="email"
-                            className="pl-10 bg-vendeai border-vendeai-gold/20 text-white placeholder:text-vendeai-lightgray/50"
+                            className="pl-10"
                             disabled={isLoading}
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-red-400" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -152,20 +117,20 @@ const Login = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-white">Senha</FormLabel>
+                      <FormLabel>Senha</FormLabel>
                       <FormControl>
                         <div className="relative">
-                          <Lock className="absolute left-3 top-2.5 h-5 w-5 text-vendeai-gold" />
+                          <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
                           <Input
                             {...field}
                             type="password"
                             placeholder="********"
-                            className="pl-10 bg-vendeai border-vendeai-gold/20 text-white placeholder:text-vendeai-lightgray/50"
+                            className="pl-10"
                             disabled={isLoading}
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-red-400" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -198,7 +163,7 @@ const Login = () => {
         
         <div className="mt-6 text-center">
           <div className="flex items-center gap-2 justify-center text-vendeai-lightgray">
-            <AlertTriangle size={16} className="text-vendeai-gold" />
+            <AlertTriangle size={16} />
             <p className="text-xs">Acesso exclusivo para usuários registrados</p>
           </div>
           <p className="text-xs text-vendeai-lightgray mt-2">

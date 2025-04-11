@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Building, User, Mail, Lock, CheckCircle, ArrowLeft, Gift } from "lucide-react";
+import { Building, User, Mail, Lock, CheckCircle, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const registerSchema = z.object({
@@ -17,7 +17,6 @@ const registerSchema = z.object({
   ownerName: z.string().min(1, "Nome do responsável é obrigatório"),
   email: z.string().email("E-mail inválido").min(1, "E-mail é obrigatório"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
-  referralCode: z.string().optional(),
   plan: z.enum(["free", "pro", "premium"], {
     required_error: "Selecione um plano",
   }),
@@ -30,7 +29,6 @@ const Register = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [showReferralField, setShowReferralField] = useState(false);
   
   // Get the plan from URL state if available
   const preselectedPlan = location.state?.plan || "free";
@@ -42,7 +40,6 @@ const Register = () => {
       ownerName: "",
       email: "",
       password: "",
-      referralCode: "",
       plan: preselectedPlan,
     },
   });
@@ -60,22 +57,13 @@ const Register = () => {
         const dummyActivationKey = crypto.randomUUID();
         console.log("Generated activation key (invisible to user):", dummyActivationKey);
         
-        // Check if referral code was used
-        if (data.referralCode) {
-          console.log("Referral code used:", data.referralCode);
-          // In a real implementation, you would:
-          // 1. Validate the referral code exists
-          // 2. Credit the referrer with a new referral
-          // 3. Apply any benefits to the new user
-        }
-        
         toast({
           title: "Cadastro realizado com sucesso!",
-          description: "Sua conta foi criada. Faça login para acessar a plataforma.",
+          description: "Bem-vindo à VendeAI. Você já pode começar a usar a plataforma.",
         });
         
-        // Redirect to login page
-        navigate("/login");
+        // Redirect to dashboard or success page
+        navigate("/dashboard");
         setIsLoading(false);
       }, 1500);
     } catch (error) {
@@ -231,40 +219,6 @@ const Register = () => {
                     </FormItem>
                   )}
                 />
-                
-                {showReferralField ? (
-                  <FormField
-                    control={form.control}
-                    name="referralCode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Código de indicação (opcional)</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Gift className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                            <Input
-                              {...field}
-                              placeholder="Ex: VENDE1234"
-                              className="pl-10"
-                              disabled={isLoading}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                ) : (
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    className="text-vendeai-gold w-full"
-                    onClick={() => setShowReferralField(true)}
-                  >
-                    <Gift className="mr-2 h-4 w-4" />
-                    Tenho um código de indicação
-                  </Button>
-                )}
                 
                 <FormField
                   control={form.control}

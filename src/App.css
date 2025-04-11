@@ -7,8 +7,6 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #111827; /* vendeai background */
-  color: #fff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -23,11 +21,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em rgba(249, 115, 22, 0.6)); /* gold shadow */
+  filter: drop-shadow(0 0 2em #646cffaa);
 }
 
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em rgba(249, 115, 22, 0.6)); /* gold shadow */
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 @keyframes logo-spin {
@@ -50,5 +48,5 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .read-the-docs {
-  color: #8A898C;
+  color: #888;
 }
