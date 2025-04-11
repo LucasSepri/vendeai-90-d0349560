@@ -22,6 +22,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -33,27 +34,54 @@ const Login = () => {
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
+    setErrorMessage(null);
     
-    // Simulate login verification (replace with actual auth logic)
     try {
       console.log("Login attempt with:", data);
       
-      // Simulate a successful login
+      // Simulate login verification and IP checking
+      // In a real implementation, you would:
+      // 1. Check if the email exists in the database
+      // 2. Verify the password
+      // 3. Verify the IP matches the registration IP
+      
+      // For demo purposes, we're simulating a successful login after validation
+      const emailExists = true; // This would come from your backend
+      const ipMatches = true; // This would be checked on your backend
+      
+      if (!emailExists) {
+        setErrorMessage("Conta não encontrada. Verifique seus dados ou crie uma conta.");
+        setIsLoading(false);
+        return;
+      }
+      
+      if (!ipMatches) {
+        setErrorMessage("Acesso negado. Esta conta só pode ser acessada do IP original de cadastro.");
+        toast({
+          variant: "destructive",
+          title: "Acesso negado",
+          description: "Por segurança, esta conta só pode ser acessada do IP original de cadastro. Entre em contato com o suporte se precisar de ajuda.",
+        });
+        setIsLoading(false);
+        return;
+      }
+      
+      // Simulate server delay
       setTimeout(() => {
         toast({
           title: "Login bem-sucedido",
           description: "Bem-vindo ao VendeAI!",
         });
+        
+        // Redirect to dashboard
         navigate("/dashboard");
         setIsLoading(false);
       }, 1500);
       
-      // For future implementation: IP validation would happen here
-      // If IP doesn't match, show warning and require 2FA
     } catch (error) {
       toast({
         title: "Erro ao fazer login",
-        description: "Verifique suas credenciais e tente novamente",
+        description: "Ocorreu um problema durante o processo de login. Tente novamente.",
         variant: "destructive"
       });
       setIsLoading(false);
@@ -87,6 +115,13 @@ const Login = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {errorMessage && (
+              <div className="mb-4 p-3 bg-red-50 text-red-800 rounded-md flex items-start">
+                <AlertTriangle className="h-5 w-5 mr-2 mt-0.5 flex-shrink-0" />
+                <p className="text-sm">{errorMessage}</p>
+              </div>
+            )}
+            
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField
