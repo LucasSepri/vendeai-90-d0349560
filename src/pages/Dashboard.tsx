@@ -189,28 +189,28 @@ const Dashboard = () => {
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               {/* Referral code card */}
-              <Card className="border-vendeai-gold/20 shadow-md">
-                <CardHeader className="pb-3">
+              <Card className="border-vendeai-gold/20 shadow-md bg-slate-50">
+                <CardHeader className="pb-3 bg-slate-50">
                   <div className="flex items-center gap-2">
                     <Gift className="text-vendeai-gold h-5 w-5" />
-                    <CardTitle className="text-lg">Seu código de indicação</CardTitle>
+                    <CardTitle className="text-lg text-vendeai-gold">Seu código de indicação</CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="bg-gray-950">
-                  <div className="bg-vendeai-gold/10 rounded-lg p-4 border border-vendeai-gold/30 text-center mb-4">
+                <CardContent className="bg-slate-50">
+                  <div className="rounded-lg p-4 border border-vendeai-gold/30 text-center mb-4 bg-black">
                     <p className="text-white text-lg font-bold">{userData?.referralCode || 'VENDE1234'}</p>
                   </div>
                   
-                  <div className="space-y-4">
+                  <div className="space-y-4 bg-black">
                     <div>
                       <div className="flex justify-between mb-1">
-                        <span className="text-sm text-white">Progresso para 30 dias grátis do plano Premium</span>
-                        <span className="text-sm text-vendeai-gold">{userData?.referrals || 0}/{referralsNeeded}</span>
+                        <span className="text-sm text-white px-[30px] text-center">Progresso para 30 dias grátis do plano Premium</span>
+                        <span className="text-sm text-vendeai-gold px-0">{userData?.referrals || 0}/{referralsNeeded}</span>
                       </div>
                       <Progress value={referralsProgress} className="h-2 bg-vendeai-gold/20" indicatorClassName="bg-vendeai-gold" />
                     </div>
                     
-                    {referralsRemaining > 0 ? <p className="text-sm text-vendeai-lightgray">
+                    {referralsRemaining > 0 ? <p className="text-sm text-vendeai-lightgray px-[30px] text-center">
                         <span className="text-vendeai-gold font-medium">{referralsRemaining}</span> indicações restantes para liberar 30 dias de Premium grátis!
                       </p> : <p className="text-sm text-vendeai-gold font-medium">
                         Parabéns! Você atingiu o número de indicações necessárias.
@@ -231,7 +231,7 @@ const Dashboard = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Button variant="ghost" className="w-full justify-between text-white hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
+                    <Button variant="ghost" className="w-full justify-between text-white hover:text-vendeai-gold bg-black">
                       <div className="flex items-center gap-3">
                         <MessageSquare className="h-5 w-5 text-vendeai-gold" />
                         <span>Funil com IA</span>
@@ -239,7 +239,7 @@ const Dashboard = () => {
                       <ChevronRight className="h-5 w-5" />
                     </Button>
                     
-                    <Button variant="ghost" className="w-full justify-between text-white hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
+                    <Button variant="ghost" className="w-full justify-between text-white hover:text-vendeai-gold bg-black">
                       <div className="flex items-center gap-3">
                         <FileText className="h-5 w-5 text-vendeai-gold" />
                         <span>Scripts Automáticos</span>
@@ -247,7 +247,7 @@ const Dashboard = () => {
                       <ChevronRight className="h-5 w-5" />
                     </Button>
                     
-                    <Button variant="ghost" className="w-full justify-between text-white hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
+                    <Button variant="ghost" className="w-full justify-between text-white hover:text-vendeai-gold bg-black">
                       <div className="flex items-center gap-3">
                         <ShoppingBag className="h-5 w-5 text-vendeai-gold" />
                         <span>Controle de Estoque</span>
@@ -257,7 +257,7 @@ const Dashboard = () => {
                       </div>
                     </Button>
                     
-                    <Button variant="ghost" className="w-full justify-between text-white hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
+                    <Button variant="ghost" className="w-full justify-between text-white hover:text-vendeai-gold bg-black">
                       <div className="flex items-center gap-3">
                         <Store className="h-5 w-5 text-vendeai-gold" />
                         <span>PDV</span>
@@ -268,7 +268,7 @@ const Dashboard = () => {
                     </Button>
                   </div>
                   
-                  {userData?.plan === 'free' && <div className="p-3 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
+                  {userData?.plan === 'free' && <div className="p-3 rounded-lg border border-vendeai-gold/30 bg-black">
                       <p className="text-sm text-white mb-2">
                         Acesse todas as funcionalidades com o plano Premium
                       </p>
