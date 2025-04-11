@@ -216,7 +216,7 @@ const Dashboard = () => {
                         Parabéns! Você atingiu o número de indicações necessárias.
                       </p>}
                     
-                    <Button variant="outline" className="w-full text-vendeai-gold border-vendeai-gold/50 hover:bg-vendeai-gold/10">
+                    <Button variant="outline" className="w-full border-vendeai-gold/50 text-center text-amber-400 bg-black">
                       <Users className="mr-2 h-4 w-4" />
                       Compartilhar código
                     </Button>
