@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,17 +5,16 @@ import { ArrowLeft, Gift, User, Settings, LogOut, LayoutDashboard, Users, Messag
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
-
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  
   useEffect(() => {
     // Check if user is logged in
     const storedUser = localStorage.getItem('vendeai_currentUser');
-    
     if (!storedUser) {
       toast({
         title: "Acesso não autorizado",
@@ -26,7 +24,6 @@ const Dashboard = () => {
       navigate('/login');
       return;
     }
-    
     try {
       const user = JSON.parse(storedUser);
       setUserData(user);
@@ -37,7 +34,6 @@ const Dashboard = () => {
       setLoading(false);
     }
   }, [navigate, toast]);
-  
   const handleLogout = () => {
     localStorage.removeItem('vendeai_currentUser');
     toast({
@@ -46,31 +42,21 @@ const Dashboard = () => {
     });
     navigate('/login');
   };
-  
   if (loading) {
-    return (
-      <div className="min-h-screen bg-vendeai flex items-center justify-center">
+    return <div className="min-h-screen bg-vendeai flex items-center justify-center">
         <div className="text-white">Carregando...</div>
-      </div>
-    );
+      </div>;
   }
-  
   const referralsNeeded = 15;
   const referralsProgress = Math.min(100, (userData?.referrals || 0) / referralsNeeded * 100);
   const referralsRemaining = Math.max(0, referralsNeeded - (userData?.referrals || 0));
-  
-  return (
-    <div className="min-h-screen bg-vendeai flex flex-col">
+  return <div className="min-h-screen bg-vendeai flex flex-col">
       {/* Sidebar */}
       <div className="flex flex-1">
         <div className="hidden md:flex w-64 flex-col bg-vendeai border-r border-vendeai-gold/20 fixed h-full">
           <div className="p-4 border-b border-vendeai-gold/20">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <img 
-                src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" 
-                alt="Vendigit Logo" 
-                className="h-8"
-              />
+              <img src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" alt="Vendigit Logo" className="h-8" />
               <span className="text-xl font-semibold text-white">
                 Vende<span className="text-vendeai-gold">AI</span>
               </span>
@@ -117,11 +103,7 @@ const Dashboard = () => {
                   <span>Configurações</span>
                 </Button>
                 
-                <Button 
-                  variant="ghost" 
-                  className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold"
-                  onClick={handleLogout}
-                >
+                <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold" onClick={handleLogout}>
                   <LogOut className="h-5 w-5" />
                   <span>Sair</span>
                 </Button>
@@ -136,11 +118,9 @@ const Dashboard = () => {
                 <span className="text-sm font-medium text-white">Plano {userData?.plan === 'free' ? 'Gratuito' : userData?.plan === 'pro' ? 'Profissional' : 'Premium'}</span>
               </div>
               
-              {userData?.plan !== 'premium' && (
-                <Button size="sm" variant="outline" className="w-full mt-2 text-vendeai-gold border-vendeai-gold/50 hover:bg-vendeai-gold/10">
+              {userData?.plan !== 'premium' && <Button size="sm" variant="outline" className="w-full mt-2 text-vendeai-gold border-vendeai-gold/50 hover:bg-vendeai-gold/10">
                   Fazer upgrade
-                </Button>
-              )}
+                </Button>}
             </div>
           </div>
         </div>
@@ -153,11 +133,7 @@ const Dashboard = () => {
               <div className="flex items-center gap-3 md:hidden">
                 <Link to="/">
                   <div className="flex items-center gap-2">
-                    <img 
-                      src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" 
-                      alt="Vendigit Logo" 
-                      className="h-8"
-                    />
+                    <img src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" alt="Vendigit Logo" className="h-8" />
                     <span className="text-xl font-semibold text-white">
                       Vende<span className="text-vendeai-gold">AI</span>
                     </span>
@@ -173,12 +149,7 @@ const Dashboard = () => {
                 <div className="hidden md:flex items-center gap-2">
                   <span className="text-white text-sm">Olá, <span className="font-medium">{userData?.ownerName?.split(' ')[0] || 'Usuário'}</span></span>
                 </div>
-                <Button 
-                  variant="ghost" 
-                  size="icon"
-                  className="md:hidden text-white"
-                  onClick={handleLogout}
-                >
+                <Button variant="ghost" size="icon" className="md:hidden text-white" onClick={handleLogout}>
                   <LogOut className="h-5 w-5" />
                 </Button>
               </div>
@@ -218,7 +189,7 @@ const Dashboard = () => {
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               {/* Referral code card */}
-              <Card className="border-vendeai-gold/20 shadow-md">
+              <Card className="border-vendeai-gold/20 shadow-md bg-slate-950">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-2">
                     <Gift className="text-vendeai-gold h-5 w-5" />
@@ -239,20 +210,13 @@ const Dashboard = () => {
                       <Progress value={referralsProgress} className="h-2 bg-vendeai-gold/20" indicatorClassName="bg-vendeai-gold" />
                     </div>
                     
-                    {referralsRemaining > 0 ? (
-                      <p className="text-sm text-vendeai-lightgray">
+                    {referralsRemaining > 0 ? <p className="text-sm text-vendeai-lightgray">
                         <span className="text-vendeai-gold font-medium">{referralsRemaining}</span> indicações restantes para liberar 30 dias de Premium grátis!
-                      </p>
-                    ) : (
-                      <p className="text-sm text-vendeai-gold font-medium">
+                      </p> : <p className="text-sm text-vendeai-gold font-medium">
                         Parabéns! Você atingiu o número de indicações necessárias.
-                      </p>
-                    )}
+                      </p>}
                     
-                    <Button 
-                      variant="outline" 
-                      className="w-full text-vendeai-gold border-vendeai-gold/50 hover:bg-vendeai-gold/10"
-                    >
+                    <Button variant="outline" className="w-full text-vendeai-gold border-vendeai-gold/50 hover:bg-vendeai-gold/10">
                       <Users className="mr-2 h-4 w-4" />
                       Compartilhar código
                     </Button>
@@ -304,16 +268,14 @@ const Dashboard = () => {
                     </Button>
                   </div>
                   
-                  {userData?.plan === 'free' && (
-                    <div className="p-3 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
+                  {userData?.plan === 'free' && <div className="p-3 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
                       <p className="text-sm text-white mb-2">
                         Acesse todas as funcionalidades com o plano Premium
                       </p>
                       <Button className="w-full gradient-gold">
                         Fazer upgrade
                       </Button>
-                    </div>
-                  )}
+                    </div>}
                 </CardContent>
               </Card>
             </div>
@@ -325,8 +287,7 @@ const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-3 gap-4">
-                  {userData?.plan === 'free' && (
-                    <>
+                  {userData?.plan === 'free' && <>
                       <div className="p-4 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
                         <h3 className="font-medium text-white mb-2">Funil básico</h3>
                         <p className="text-sm text-vendeai-lightgray">Crie um funil de vendas básico com IA</p>
@@ -339,11 +300,9 @@ const Dashboard = () => {
                         <h3 className="font-medium text-white mb-2">100 mensagens/mês</h3>
                         <p className="text-sm text-vendeai-lightgray">Limite de 100 mensagens mensais</p>
                       </div>
-                    </>
-                  )}
+                    </>}
                   
-                  {userData?.plan === 'pro' && (
-                    <>
+                  {userData?.plan === 'pro' && <>
                       <div className="p-4 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
                         <h3 className="font-medium text-white mb-2">Funis ilimitados</h3>
                         <p className="text-sm text-vendeai-lightgray">Crie funis de vendas sem limites</p>
@@ -356,11 +315,9 @@ const Dashboard = () => {
                         <h3 className="font-medium text-white mb-2">1.000 mensagens/mês</h3>
                         <p className="text-sm text-vendeai-lightgray">Limite de 1.000 mensagens mensais</p>
                       </div>
-                    </>
-                  )}
+                    </>}
                   
-                  {userData?.plan === 'premium' && (
-                    <>
+                  {userData?.plan === 'premium' && <>
                       <div className="p-4 bg-vendeai-gold/10 rounded-lg border border-vendeai-gold/30">
                         <h3 className="font-medium text-white mb-2">Tudo do Pro</h3>
                         <p className="text-sm text-vendeai-lightgray">Todas as funcionalidades do plano Pro</p>
@@ -373,24 +330,19 @@ const Dashboard = () => {
                         <h3 className="font-medium text-white mb-2">Mensagens ilimitadas</h3>
                         <p className="text-sm text-vendeai-lightgray">Envie mensagens sem limites mensais</p>
                       </div>
-                    </>
-                  )}
+                    </>}
                   
-                  {userData?.plan !== 'premium' && (
-                    <div className="md:col-span-3 mt-2">
+                  {userData?.plan !== 'premium' && <div className="md:col-span-3 mt-2">
                       <Button className="gradient-gold">
                         Fazer upgrade para Premium
                       </Button>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </CardContent>
             </Card>
           </main>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Dashboard;
