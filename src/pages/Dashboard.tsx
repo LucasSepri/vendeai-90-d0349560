@@ -189,7 +189,7 @@ const Dashboard = () => {
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               {/* Referral code card */}
-              <Card className="border-vendeai-gold/20 shadow-md bg-slate-50">
+              <Card className="border-vendeai-gold/20 shadow-md bg-vendeai-gold">
                 <CardHeader className="pb-3 bg-slate-50">
                   <div className="flex items-center gap-2">
                     <Gift className="text-vendeai-gold h-5 w-5" />
@@ -197,7 +197,7 @@ const Dashboard = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="bg-slate-50">
-                  <div className="rounded-lg p-4 border border-vendeai-gold/30 text-center mb-4 bg-black">
+                  <div className="rounded-lg p-4 border border-vendeai-gold/30 text-center mb-4 bg-vendeai-gold">
                     <p className="text-white text-lg font-bold">{userData?.referralCode || 'VENDE1234'}</p>
                   </div>
                   
