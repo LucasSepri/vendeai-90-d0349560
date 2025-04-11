@@ -1,6 +1,3 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,34 +96,6 @@
   }
 
   body {
-    @apply bg-background text-foreground font-poppins;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-playfair font-semibold;
-  }
-  
-  .gradient-gold {
-    @apply bg-gradient-to-r from-vendeai-gold to-vendeai-lightgold;
-  }
-  
-  .btn-primary {
-    @apply text-white font-semibold py-3 px-6 rounded-lg gradient-gold hover:opacity-90 transition duration-300 shadow-md;
-  }
-  
-  .btn-secondary {
-    @apply text-vendeai-gold font-semibold py-3 px-6 rounded-lg border-2 border-vendeai-gold hover:bg-vendeai-gold hover:text-white transition duration-300;
-  }
-  
-  .section {
-    @apply py-16 md:py-24;
-  }
-  
-  .feature-card {
-    @apply bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300 border border-gray-100;
-  }
-  
-  .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg;
+    @apply bg-background text-foreground;
   }
 }

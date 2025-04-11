@@ -1,17 +1,8 @@
-
-
 #root {
-  width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
+  padding: 2rem;
   text-align: center;
-}
-
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
 }
 
 .logo {
@@ -20,11 +11,9 @@ h1, h2, h3, h4, h5, h6 {
   will-change: filter;
   transition: filter 300ms;
 }
-
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
-
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -51,25 +40,3 @@ h1, h2, h3, h4, h5, h6 {
 .read-the-docs {
   color: #888;
 }
-
-.gradient-gold {
-  background: linear-gradient(to right, #D4AF37, #F2D778, #D4AF37);
-  color: #000000;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.gradient-gold:hover {
-  background: linear-gradient(to right, #B8860B, #D4AF37, #B8860B);
-  box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
-}
-
-.gradient-gold:disabled {
-  background: linear-gradient(to right, #D4AF37, #F2D778, #D4AF37);
-  opacity: 0.6;
-}
-
-.bg-vendeai {
-  background-color: #000000;
-}
-
