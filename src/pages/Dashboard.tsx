@@ -192,7 +192,7 @@ const Dashboard = () => {
                       <Link to="/dashboard/tools">Acessar Dashboard</Link>
                     </Button>
                     
-                    <Button variant="outline" onClick={() => setIsAssistantOpen(true)} className="border-vendeai-gold/30 text-white hover:text-vendeai-gold bg-zinc-950 hover:bg-zinc-800">
+                    <Button variant="outline" onClick={() => setIsAssistantOpen(true)} className="border-vendeai-gold/30 text-white hover:text-vendeai-gold bg-white">
                       <Bot className="mr-2 h-5 w-5" />
                       Falar com Assistente IA
                     </Button>
