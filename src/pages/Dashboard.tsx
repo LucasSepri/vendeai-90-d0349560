@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +15,6 @@ const Dashboard = () => {
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
 
   useEffect(() => {
-    // Check if user is logged in
     const storedUser = localStorage.getItem('vendeai_currentUser');
     if (!storedUser) {
       toast({
@@ -58,10 +56,8 @@ const Dashboard = () => {
   const referralsRemaining = Math.max(0, referralsNeeded - (userData?.referrals || 0));
 
   return <div className="min-h-screen bg-vendeai flex flex-col">
-      {/* AI Assistant Component */}
       <AIAssistant open={isAssistantOpen} onOpenChange={setIsAssistantOpen} />
       
-      {/* Sidebar */}
       <div className="flex flex-1">
         <div className="hidden md:flex w-64 flex-col bg-vendeai border-r border-vendeai-gold/20 fixed h-full">
           <div className="p-4 border-b border-vendeai-gold/20">
@@ -144,9 +140,7 @@ const Dashboard = () => {
           </div>
         </div>
         
-        {/* Main content */}
         <div className="flex-1 md:ml-64">
-          {/* Top navigation for mobile */}
           <header className="bg-vendeai border-b border-vendeai-gold/20 py-4 px-6 sticky top-0 z-10">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 md:hidden">
@@ -186,7 +180,6 @@ const Dashboard = () => {
           </header>
           
           <main className="p-6">
-            {/* Welcome section */}
             <div className="grid gap-6 mb-8">
               <Card className="border-vendeai-gold/20 shadow-md bg-gradient-to-r from-vendeai to-vendeai">
                 <CardHeader>
@@ -226,7 +219,6 @@ const Dashboard = () => {
             </div>
             
             <div className="grid md:grid-cols-2 gap-6 mb-8">
-              {/* Referral code card */}
               <Card className="border-vendeai-gold/20 shadow-md bg-vendeai-gold">
                 <CardHeader className="pb-3 bg-slate-50">
                   <div className="flex items-center gap-2">
@@ -262,7 +254,6 @@ const Dashboard = () => {
                 </CardContent>
               </Card>
               
-              {/* Modules card */}
               <Card className="border-vendeai-gold/20 shadow-md">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg">Funcionalidades</CardTitle>
@@ -330,7 +321,6 @@ const Dashboard = () => {
               </Card>
             </div>
             
-            {/* Plan benefits */}
             <Card className="border-vendeai-gold/20 shadow-md mb-8">
               <CardHeader className="pb-3">
                 <CardTitle className="text-lg">Benefícios do seu plano</CardTitle>
