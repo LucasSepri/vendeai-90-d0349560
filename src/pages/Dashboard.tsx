@@ -6,14 +6,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import AIAssistant from "@/components/AIAssistant";
-
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
-
   useEffect(() => {
     const storedUser = localStorage.getItem('vendeai_currentUser');
     if (!storedUser) {
@@ -35,7 +35,6 @@ const Dashboard = () => {
       setLoading(false);
     }
   }, [navigate, toast]);
-
   const handleLogout = () => {
     localStorage.removeItem('vendeai_currentUser');
     toast({
@@ -44,17 +43,14 @@ const Dashboard = () => {
     });
     navigate('/login');
   };
-
   if (loading) {
     return <div className="min-h-screen bg-vendeai flex items-center justify-center">
         <div className="text-white">Carregando...</div>
       </div>;
   }
-  
   const referralsNeeded = 15;
   const referralsProgress = Math.min(100, (userData?.referrals || 0) / referralsNeeded * 100);
   const referralsRemaining = Math.max(0, referralsNeeded - (userData?.referrals || 0));
-
   return <div className="min-h-screen bg-vendeai flex flex-col">
       <AIAssistant open={isAssistantOpen} onOpenChange={setIsAssistantOpen} />
       
@@ -96,11 +92,7 @@ const Dashboard = () => {
                 <span>PDV</span>
               </Button>
               
-              <Button 
-                variant="ghost" 
-                className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold"
-                onClick={() => setIsAssistantOpen(true)}
-              >
+              <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold" onClick={() => setIsAssistantOpen(true)}>
                 <Bot className="h-5 w-5" />
                 <span>Assistente IA</span>
               </Button>
@@ -159,12 +151,7 @@ const Dashboard = () => {
               </div>
               
               <div className="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="border-vendeai-gold/30 text-vendeai-gold hover:bg-vendeai-gold/10"
-                  onClick={() => setIsAssistantOpen(true)}
-                >
+                <Button variant="outline" size="icon" className="border-vendeai-gold/30 text-vendeai-gold hover:bg-vendeai-gold/10" onClick={() => setIsAssistantOpen(true)}>
                   <Bot className="h-5 w-5" />
                 </Button>
                 
@@ -205,11 +192,7 @@ const Dashboard = () => {
                       <Link to="/dashboard/tools">Acessar Dashboard</Link>
                     </Button>
                     
-                    <Button 
-                      variant="outline" 
-                      className="border-vendeai-gold/30 text-white hover:bg-vendeai-gold/10 hover:text-vendeai-gold"
-                      onClick={() => setIsAssistantOpen(true)}
-                    >
+                    <Button variant="outline" onClick={() => setIsAssistantOpen(true)} className="border-vendeai-gold/30 text-white hover:text-vendeai-gold bg-zinc-950 hover:bg-zinc-800">
                       <Bot className="mr-2 h-5 w-5" />
                       Falar com Assistente IA
                     </Button>
@@ -296,11 +279,7 @@ const Dashboard = () => {
                       </div>
                     </Button>
                     
-                    <Button 
-                      variant="ghost" 
-                      className="w-full justify-between text-white hover:text-vendeai-gold bg-black"
-                      onClick={() => setIsAssistantOpen(true)}
-                    >
+                    <Button variant="ghost" className="w-full justify-between text-white hover:text-vendeai-gold bg-black" onClick={() => setIsAssistantOpen(true)}>
                       <div className="flex items-center gap-3">
                         <Bot className="h-5 w-5 text-vendeai-gold" />
                         <span>Assistente IA</span>
@@ -385,5 +364,4 @@ const Dashboard = () => {
       </div>
     </div>;
 };
-
 export default Dashboard;
