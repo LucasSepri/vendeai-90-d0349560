@@ -435,12 +435,12 @@ export const AIAssistant = ({
             <TabsContent value="chat" className="mt-0 flex flex-col">
               <div className="p-2">
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="w-full border-vendeai-gold/20 hover:bg-vendeai-gold/10 text-gray-400 hover:text-vendeai-gold flex gap-2" onClick={clearConversation}>
+                  <Button variant="outline" size="sm" onClick={clearConversation} className="w-full border-vendeai-gold/20 text-gray-400 hover:text-vendeai-gold flex gap-2 bg-vendeai-DEFAULT">
                     <Trash2 className="h-4 w-4" />
                     Limpar conversa
                   </Button>
                   
-                  <Button variant="outline" size="sm" className="border-vendeai-gold/20 hover:bg-vendeai-gold/10 text-gray-400 hover:text-vendeai-gold flex gap-2" onClick={() => setIsApiKeyDialogOpen(true)}>
+                  <Button variant="outline" size="sm" onClick={() => setIsApiKeyDialogOpen(true)} className="border-vendeai-gold/20 text-gray-400 hover:text-vendeai-gold flex gap-2 bg-transparent">
                     <Key className="h-4 w-4" />
                     Config
                   </Button>
