@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import { Bot, User, Send, X, Trash2, ChevronRight, Info, Lightbulb, Sparkles, Key, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Loader2 } from "lucide-react";
+
 interface Message {
   id: string;
   role: "user" | "assistant";
@@ -18,25 +20,26 @@ interface Message {
   timestamp: Date;
   context?: string; // Track what context the message was related to
 }
+
 interface AIStats {
   messagesCount: number;
   topTopics: string[];
   lastInteraction: Date | null;
   helpfulResponses: number;
 }
+
 interface TrainingData {
   question: string;
   answer: string;
   category: string;
 }
+
 interface AIAssistantProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-export const AIAssistant = ({
-  open,
-  onOpenChange
-}: AIAssistantProps) => {
+
+export const AIAssistant = ({ open, onOpenChange }: AIAssistantProps) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -53,11 +56,10 @@ export const AIAssistant = ({
   const [useExternalAI, setUseExternalAI] = useState(false);
   const [externalModel, setExternalModel] = useState("deepseek-v3-open-instruct");
   const [apiError, setApiError] = useState("");
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
 
   // Load messages from localStorage on component mount
   useEffect(() => {
@@ -67,6 +69,7 @@ export const AIAssistant = ({
     const savedApiKey = localStorage.getItem("vendeai_api_key");
     const savedUseExternalAI = localStorage.getItem("vendeai_use_external_ai");
     const savedExternalModel = localStorage.getItem("vendeai_external_model");
+    
     if (savedMessages) {
       try {
         setMessages(JSON.parse(savedMessages));
@@ -84,6 +87,7 @@ export const AIAssistant = ({
       setMessages([welcomeMessage]);
       localStorage.setItem("vendeai_assistant_history", JSON.stringify([welcomeMessage]));
     }
+    
     if (savedTrainingData) {
       try {
         setTrainingData(JSON.parse(savedTrainingData));
@@ -91,6 +95,7 @@ export const AIAssistant = ({
         console.error("Error parsing saved training data:", error);
       }
     }
+    
     if (savedStats) {
       try {
         setStats(JSON.parse(savedStats));
@@ -103,12 +108,15 @@ export const AIAssistant = ({
       // Initialize stats based on existing messages
       updateStats(savedMessages ? JSON.parse(savedMessages) : []);
     }
+
     if (savedApiKey) {
       setApiKey(savedApiKey);
     }
+
     if (savedUseExternalAI) {
       setUseExternalAI(JSON.parse(savedUseExternalAI));
     }
+
     if (savedExternalModel) {
       setExternalModel(savedExternalModel);
     }
@@ -124,9 +132,7 @@ export const AIAssistant = ({
 
   // Auto-scroll to the latest message
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({
-      behavior: "smooth"
-    });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   // Focus input field when dialog opens
@@ -137,34 +143,40 @@ export const AIAssistant = ({
       }, 100);
     }
   }, [open]);
-
+  
   // Update assistant stats
   const updateStats = (currentMessages: Message[]) => {
     // Count messages
     const userMessages = currentMessages.filter(msg => msg.role === "user");
-
+    
     // Track topics from context field
-    const topics = userMessages.map(msg => msg.context || "geral").reduce((acc: Record<string, number>, topic) => {
-      acc[topic] = (acc[topic] || 0) + 1;
-      return acc;
-    }, {});
-
+    const topics = userMessages
+      .map(msg => msg.context || "geral")
+      .reduce((acc: Record<string, number>, topic) => {
+        acc[topic] = (acc[topic] || 0) + 1;
+        return acc;
+      }, {});
+    
     // Get top 3 topics
-    const topTopics = Object.entries(topics).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([topic]) => topic);
-
+    const topTopics = Object.entries(topics)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([topic]) => topic);
+      
     // Last interaction time
     const lastMessage = currentMessages[currentMessages.length - 1];
     const lastInteraction = lastMessage ? new Date(lastMessage.timestamp) : null;
-
+    
     // Helpful responses (simplified for demo - could be based on user feedback)
     const helpfulResponses = Math.floor(userMessages.length * 0.8); // Assume 80% were helpful
-
+    
     const newStats: AIStats = {
       messagesCount: userMessages.length,
       topTopics,
       lastInteraction,
       helpfulResponses
     };
+    
     setStats(newStats);
     localStorage.setItem("vendeai_assistant_stats", JSON.stringify(newStats));
   };
@@ -176,14 +188,16 @@ export const AIAssistant = ({
       answer,
       category: detectCategory(question)
     };
+    
     const updatedTrainingData = [...trainingData, newTrainingData];
     setTrainingData(updatedTrainingData);
     localStorage.setItem("vendeai_training_data", JSON.stringify(updatedTrainingData));
   };
-
+  
   // Detect category from question
   const detectCategory = (question: string): string => {
     const lowerQuestion = question.toLowerCase();
+    
     if (lowerQuestion.includes("preço") || lowerQuestion.includes("plano") || lowerQuestion.includes("valor")) {
       return "preços";
     } else if (lowerQuestion.includes("funil") || lowerQuestion.includes("lead")) {
@@ -198,6 +212,7 @@ export const AIAssistant = ({
       return "geral";
     }
   };
+
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
@@ -210,7 +225,8 @@ export const AIAssistant = ({
       timestamp: new Date(),
       context: category
     };
-    setMessages(prevMessages => [...prevMessages, userMessage]);
+
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
     setInput("");
     setIsTyping(true);
     setApiError("");
@@ -218,6 +234,7 @@ export const AIAssistant = ({
     // Generate assistant response with improved logic
     try {
       let aiResponse;
+      
       if (useExternalAI && apiKey) {
         try {
           aiResponse = await generateOpenRouterResponse(input.trim(), messages, apiKey, externalModel);
@@ -236,6 +253,7 @@ export const AIAssistant = ({
         await new Promise(resolve => setTimeout(resolve, 1500));
         aiResponse = await generateEnhancedResponse(input.trim(), messages, trainingData);
       }
+
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
@@ -243,10 +261,12 @@ export const AIAssistant = ({
         timestamp: new Date(),
         context: category
       };
-      setMessages(prevMessages => [...prevMessages, assistantMessage]);
 
+      setMessages((prevMessages) => [...prevMessages, assistantMessage]);
+      
       // Add to training data
       addTrainingData(input.trim(), aiResponse);
+      
     } catch (error) {
       console.error("Error generating response:", error);
       toast({
@@ -258,24 +278,34 @@ export const AIAssistant = ({
       setIsTyping(false);
     }
   };
-  const generateOpenRouterResponse = async (query: string, messageHistory: Message[], key: string, model: string): Promise<string> => {
+
+  const generateOpenRouterResponse = async (
+    query: string,
+    messageHistory: Message[],
+    key: string,
+    model: string
+  ): Promise<string> => {
     if (!key) {
       throw new Error("API key is required");
     }
 
     // Format messages for OpenRouter API
-    const formattedMessages = [{
-      role: "system",
-      content: "Você é a assistente VendeAI, uma IA especializada em automação de vendas e marketing. Responda em português do Brasil de forma profissional e persuasiva, fornecendo informações precisas sobre funcionalidades de automação de vendas, funis, scripts de vendas, chatbots e outras ferramentas de vendas."
-    },
-    // Convert last 10 messages from history to format expected by OpenRouter
-    ...messageHistory.slice(-10).map(msg => ({
-      role: msg.role,
-      content: msg.content
-    })), {
-      role: "user",
-      content: query
-    }];
+    const formattedMessages = [
+      {
+        role: "system",
+        content: "Você é a assistente VendeAI, uma IA especializada em automação de vendas e marketing. Responda em português do Brasil de forma profissional e persuasiva, fornecendo informações precisas sobre funcionalidades de automação de vendas, funis, scripts de vendas, chatbots e outras ferramentas de vendas."
+      },
+      // Convert last 10 messages from history to format expected by OpenRouter
+      ...messageHistory.slice(-10).map(msg => ({
+        role: msg.role,
+        content: msg.content
+      })),
+      {
+        role: "user",
+        content: query
+      }
+    ];
+
     try {
       const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
         method: "POST",
@@ -292,12 +322,14 @@ export const AIAssistant = ({
           max_tokens: 1024
         })
       });
+
       if (!response.ok) {
         const errorData = await response.json();
         console.error("OpenRouter API error:", errorData);
         setApiError(`Erro na API (${response.status}): ${errorData.error?.message || "Falha na requisição"}`);
         throw new Error(`API error: ${response.statusText}`);
       }
+
       const data = await response.json();
       return data.choices[0].message.content;
     } catch (error) {
@@ -306,24 +338,39 @@ export const AIAssistant = ({
       throw error;
     }
   };
-  const generateEnhancedResponse = async (query: string, history: Message[], trainingSet: TrainingData[]): Promise<string> => {
-    const lowercaseQuery = query.toLowerCase();
 
+  const generateEnhancedResponse = async (
+    query: string, 
+    history: Message[], 
+    trainingSet: TrainingData[]
+  ): Promise<string> => {
+    const lowercaseQuery = query.toLowerCase();
+    
     // 1. Check if we have training data that matches this query
-    const matchingTrainingData = trainingSet.filter(item => item.question.toLowerCase().includes(lowercaseQuery) || lowercaseQuery.includes(item.question.toLowerCase()));
-    if (matchingTrainingData.length > 0 && Math.random() > 0.3) {
-      // 70% chance to use training data
+    const matchingTrainingData = trainingSet.filter(item => 
+      item.question.toLowerCase().includes(lowercaseQuery) || 
+      lowercaseQuery.includes(item.question.toLowerCase())
+    );
+    
+    if (matchingTrainingData.length > 0 && Math.random() > 0.3) { // 70% chance to use training data
       // Pick the best match
-      const bestMatch = matchingTrainingData.sort((a, b) => b.question.length - a.question.length // Prefer longer matches
+      const bestMatch = matchingTrainingData.sort((a, b) => 
+        b.question.length - a.question.length // Prefer longer matches
       )[0];
+      
       return bestMatch.answer;
     }
-
+    
     // 2. Look for context in recent conversation (last 5 messages)
     const recentMessages = history.slice(-5);
-    const hasAskedAbout = (topic: string) => recentMessages.some(msg => msg.role === "user" && msg.content.toLowerCase().includes(topic));
-    const hasRecentContext = (topic: string) => recentMessages.some(msg => msg.context === topic);
-
+    const hasAskedAbout = (topic: string) => 
+      recentMessages.some(msg => 
+        msg.role === "user" && msg.content.toLowerCase().includes(topic)
+      );
+    
+    const hasRecentContext = (topic: string) =>
+      recentMessages.some(msg => msg.context === topic);
+    
     // 3. Generate contextual responses
     if (lowercaseQuery.includes("olá") || lowercaseQuery.includes("oi")) {
       if (history.length > 10) {
@@ -361,7 +408,7 @@ export const AIAssistant = ({
     } else {
       // Contextual awareness based on message history and user behavior
       const userMessageCount = history.filter(msg => msg.role === "user").length;
-
+      
       // Personalize for new vs returning users
       let personalization = "";
       if (userMessageCount > 15) {
@@ -369,15 +416,18 @@ export const AIAssistant = ({
       } else if (userMessageCount > 5) {
         personalization = "Vejo que já está familiarizado com nossa plataforma. ";
       }
+      
       return `${personalization}Entendi sua pergunta sobre "${query}". Como assistente avançado do VendeAI, posso ajudar com estratégias de vendas personalizadas, criação de funis otimizados, scripts persuasivos, configuração de chatbot e outras funcionalidades da plataforma. Com base em sua consulta, recomendo explorar a seção ${detectCategory(query)} da plataforma. Poderia elaborar um pouco mais sobre o que precisa especificamente?`;
     }
   };
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
   };
+
   const clearConversation = () => {
     // Keep only the welcome message
     const welcomeMessage: Message = {
@@ -388,22 +438,30 @@ export const AIAssistant = ({
     };
     setMessages([welcomeMessage]);
     localStorage.setItem("vendeai_assistant_history", JSON.stringify([welcomeMessage]));
+    
     toast({
       title: "Conversa limpa",
       description: "Sua conversa com a assistente foi reiniciada."
     });
   };
+
   const saveApiKey = () => {
     localStorage.setItem("vendeai_api_key", apiKey);
     localStorage.setItem("vendeai_use_external_ai", JSON.stringify(useExternalAI));
     localStorage.setItem("vendeai_external_model", externalModel);
+    
     toast({
       title: "Configurações salvas",
-      description: useExternalAI ? "O assistente agora usará o modelo externo para respostas." : "O assistente usará o modelo interno para respostas."
+      description: useExternalAI 
+        ? "O assistente agora usará o modelo externo para respostas." 
+        : "O assistente usará o modelo interno para respostas."
     });
+    
     setIsApiKeyDialogOpen(false);
   };
-  return <>
+
+  return (
+    <>
       <Dialog open={open} onOpenChange={onOpenChange}>
         <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden bg-black border border-vendeai-gold/20">
           <Tabs defaultValue="chat" className="w-full">
@@ -435,67 +493,94 @@ export const AIAssistant = ({
             <TabsContent value="chat" className="mt-0 flex flex-col">
               <div className="p-2">
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={clearConversation} className="w-full border-vendeai-gold/20 text-gray-400 hover:text-vendeai-gold flex gap-2 bg-vendeai-DEFAULT">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full border-vendeai-gold/20 hover:bg-vendeai-gold/10 text-gray-400 hover:text-vendeai-gold flex gap-2"
+                    onClick={clearConversation}
+                  >
                     <Trash2 className="h-4 w-4" />
                     Limpar conversa
                   </Button>
                   
-                  <Button variant="outline" size="sm" onClick={() => setIsApiKeyDialogOpen(true)} className="border-vendeai-gold/20 text-gray-400 hover:text-vendeai-gold flex gap-2 bg-transparent">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-vendeai-gold/20 hover:bg-vendeai-gold/10 text-gray-400 hover:text-vendeai-gold flex gap-2"
+                    onClick={() => setIsApiKeyDialogOpen(true)}
+                  >
                     <Key className="h-4 w-4" />
                     Config
                   </Button>
                 </div>
               </div>
               
-              <ScrollArea className="p-6 pt-2 h-[350px] bg-slate-50">
-                <div className="flex flex-col gap-4 bg-zinc-950 px-[3px] py-[9px] rounded">
-                  {messages.map(message => <div key={message.id} className={`flex gap-3 ${message.role === "assistant" ? "items-start" : "items-start justify-end"}`}>
-                      {message.role === "assistant" && <div className="bg-vendeai-gold/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 mx-[7px]">
+              <ScrollArea className="p-6 pt-2 h-[350px]">
+                <div className="flex flex-col gap-4">
+                  {messages.map((message) => (
+                    <div
+                      key={message.id}
+                      className={`flex gap-3 ${
+                        message.role === "assistant" ? "items-start" : "items-start justify-end"
+                      }`}
+                    >
+                      {message.role === "assistant" && (
+                        <div className="bg-vendeai-gold/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                           <Bot className="h-4 w-4 text-vendeai-gold" />
-                        </div>}
+                        </div>
+                      )}
                       
-                      <div className="">
-                        <p className="text-sm text-zinc-50 my-0">{message.content}</p>
+                      <div
+                        className={`rounded-lg p-3 max-w-[85%] ${
+                          message.role === "assistant"
+                            ? "bg-vendeai-gray/10 text-white"
+                            : "bg-vendeai-gold/10 text-white"
+                        }`}
+                      >
+                        <p className="text-sm">{message.content}</p>
                         <div className="mt-1 text-xs text-gray-400 flex items-center gap-1">
                           {new Date(message.timestamp).toLocaleTimeString()}
-                          {message.context && <span className="ml-2 bg-vendeai-gold/10 px-1.5 py-0.5 rounded-full text-xs">
+                          {message.context && (
+                            <span className="ml-2 bg-vendeai-gold/10 px-1.5 py-0.5 rounded-full text-xs">
                               {message.context}
-                            </span>}
+                            </span>
+                          )}
                         </div>
                       </div>
                       
-                      {message.role === "user" && <div className="bg-vendeai-gold h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      {message.role === "user" && (
+                        <div className="bg-vendeai-gold h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                           <User className="h-4 w-4 text-black" />
-                        </div>}
-                    </div>)}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                   
-                  {isTyping && <div className="flex items-start gap-3">
+                  {isTyping && (
+                    <div className="flex items-start gap-3">
                       <div className="bg-vendeai-gold/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <Bot className="h-4 w-4 text-vendeai-gold" />
                       </div>
                       <div className="rounded-lg p-3 max-w-[85%] bg-vendeai-gray/10 text-white">
                         <div className="flex space-x-1 items-center">
-                          <div className="h-2 w-2 bg-vendeai-gold/50 rounded-full animate-bounce" style={{
-                        animationDelay: "0ms"
-                      }}></div>
-                          <div className="h-2 w-2 bg-vendeai-gold/50 rounded-full animate-bounce" style={{
-                        animationDelay: "300ms"
-                      }}></div>
-                          <div className="h-2 w-2 bg-vendeai-gold/50 rounded-full animate-bounce" style={{
-                        animationDelay: "600ms"
-                      }}></div>
+                          <div className="h-2 w-2 bg-vendeai-gold/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }}></div>
+                          <div className="h-2 w-2 bg-vendeai-gold/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }}></div>
+                          <div className="h-2 w-2 bg-vendeai-gold/50 rounded-full animate-bounce" style={{ animationDelay: "600ms" }}></div>
                         </div>
                       </div>
-                    </div>}
+                    </div>
+                  )}
                   
-                  {apiError && <div className="flex items-start gap-3">
+                  {apiError && (
+                    <div className="flex items-start gap-3">
                       <div className="bg-red-500/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
                         <AlertTriangle className="h-4 w-4 text-red-500" />
                       </div>
                       <div className="rounded-lg p-3 max-w-[85%] bg-red-500/10 text-white">
                         <p className="text-sm">{apiError}</p>
                       </div>
-                    </div>}
+                    </div>
+                  )}
                   
                   <div ref={messagesEndRef} />
                 </div>
@@ -505,18 +590,45 @@ export const AIAssistant = ({
               
               <div className="p-4">
                 <div className="relative">
-                  <Textarea ref={inputRef} value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown} placeholder="Digite sua mensagem..." className="resize-none pr-12 bg-black text-white border-vendeai-gold/20 focus-visible:ring-vendeai-gold/40" rows={2} disabled={isTyping} />
-                  <Button size="icon" className="absolute right-2 bottom-2 h-8 w-8 gradient-gold text-black" onClick={handleSendMessage} disabled={!input.trim() || isTyping}>
+                  <Textarea
+                    ref={inputRef}
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder="Digite sua mensagem..."
+                    className="resize-none pr-12 bg-black text-white border-vendeai-gold/20 focus-visible:ring-vendeai-gold/40"
+                    rows={2}
+                    disabled={isTyping}
+                  />
+                  <Button
+                    size="icon"
+                    className="absolute right-2 bottom-2 h-8 w-8 gradient-gold text-black"
+                    onClick={handleSendMessage}
+                    disabled={!input.trim() || isTyping}
+                  >
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
                 <div className="mt-2 text-xs text-gray-400 flex items-center gap-1">
                   <Bot className="h-3 w-3" />
                   <span>
-                    Modelo: {useExternalAI ? <span className="text-vendeai-gold">{externalModel} (OpenRouter)</span> : <span>VendeAI Assistant {assistantMode === "advanced" ? "2.0" : "1.0"}</span>}
+                    Modelo: {useExternalAI ? (
+                      <span className="text-vendeai-gold">{externalModel} (OpenRouter)</span>
+                    ) : (
+                      <span>VendeAI Assistant {assistantMode === "advanced" ? "2.0" : "1.0"}</span>
+                    )}
                   </span>
-                  <Button variant="ghost" size="sm" className="ml-auto h-6 px-2 text-vendeai-gold hover:bg-vendeai-gold/10" onClick={() => setAssistantMode(assistantMode === "standard" ? "advanced" : "standard")}>
-                    {assistantMode === "standard" ? <><Sparkles className="h-3 w-3 mr-1" /> Ativar modo avançado</> : <><Info className="h-3 w-3 mr-1" /> Voltar ao modo padrão</>}
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="ml-auto h-6 px-2 text-vendeai-gold hover:bg-vendeai-gold/10"
+                    onClick={() => setAssistantMode(assistantMode === "standard" ? "advanced" : "standard")}
+                  >
+                    {assistantMode === "standard" ? (
+                      <><Sparkles className="h-3 w-3 mr-1" /> Ativar modo avançado</>
+                    ) : (
+                      <><Info className="h-3 w-3 mr-1" /> Voltar ao modo padrão</>
+                    )}
                   </Button>
                 </div>
               </div>
@@ -545,9 +657,15 @@ export const AIAssistant = ({
                   <div>
                     <h3 className="text-white text-lg font-medium mb-2">Principais Tópicos</h3>
                     <div className="space-y-2">
-                      {stats.topTopics.length > 0 ? stats.topTopics.map((topic, index) => <div key={index} className="bg-vendeai-gold/10 rounded-lg p-3 border border-vendeai-gold/20">
+                      {stats.topTopics.length > 0 ? (
+                        stats.topTopics.map((topic, index) => (
+                          <div key={index} className="bg-vendeai-gold/10 rounded-lg p-3 border border-vendeai-gold/20">
                             <p className="text-white capitalize">{topic}</p>
-                          </div>) : <p className="text-gray-400">Nenhum tópico registrado ainda</p>}
+                          </div>
+                        ))
+                      ) : (
+                        <p className="text-gray-400">Nenhum tópico registrado ainda</p>
+                      )}
                     </div>
                   </div>
                   
@@ -564,16 +682,20 @@ export const AIAssistant = ({
                       
                       <div className="space-y-2">
                         {/* Count training data by category */}
-                        {Object.entries(trainingData.reduce((acc: Record<string, number>, item) => {
-                        acc[item.category] = (acc[item.category] || 0) + 1;
-                        return acc;
-                      }, {})).map(([category, count]) => <div key={category} className="flex items-center justify-between">
+                        {Object.entries(
+                          trainingData.reduce((acc: Record<string, number>, item) => {
+                            acc[item.category] = (acc[item.category] || 0) + 1;
+                            return acc;
+                          }, {})
+                        ).map(([category, count]) => (
+                          <div key={category} className="flex items-center justify-between">
                             <span className="text-gray-400 capitalize">{category}</span>
                             <div className="flex items-center">
                               <span className="text-vendeai-gold font-medium">{count}</span>
                               <span className="text-gray-500 ml-1">itens</span>
                             </div>
-                          </div>)}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -581,13 +703,15 @@ export const AIAssistant = ({
                   <div>
                     <h3 className="text-white text-lg font-medium mb-2">Última Interação</h3>
                     <p className="text-gray-400">
-                      {stats.lastInteraction ? new Date(stats.lastInteraction).toLocaleString('pt-BR', {
-                      day: '2-digit',
-                      month: '2-digit',
-                      year: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    }) : "Nenhuma interação registrada"}
+                      {stats.lastInteraction 
+                        ? new Date(stats.lastInteraction).toLocaleString('pt-BR', {
+                            day: '2-digit',
+                            month: '2-digit',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })
+                        : "Nenhuma interação registrada"}
                     </p>
                   </div>
                   
@@ -595,9 +719,16 @@ export const AIAssistant = ({
                     <h3 className="text-white text-lg font-medium mb-2">Modelo de IA</h3>
                     <div className="flex items-center justify-between">
                       <p className="text-gray-400">
-                        {useExternalAI ? `Usando modelo externo: ${externalModel}` : "Usando modelo interno do VendeAI"}
+                        {useExternalAI 
+                          ? `Usando modelo externo: ${externalModel}`
+                          : "Usando modelo interno do VendeAI"}
                       </p>
-                      <Button variant="outline" size="sm" className="text-vendeai-gold border-vendeai-gold/30 hover:bg-vendeai-gold/10" onClick={() => setIsApiKeyDialogOpen(true)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="text-vendeai-gold border-vendeai-gold/30 hover:bg-vendeai-gold/10"
+                        onClick={() => setIsApiKeyDialogOpen(true)}
+                      >
                         Configurar
                       </Button>
                     </div>
@@ -621,13 +752,26 @@ export const AIAssistant = ({
           <div className="space-y-4">
             <div className="flex items-center justify-between space-x-2">
               <Label htmlFor="use-external-ai" className="text-white">Usar modelo externo</Label>
-              <Switch id="use-external-ai" checked={useExternalAI} onCheckedChange={setUseExternalAI} className="data-[state=checked]:bg-vendeai-gold" />
+              <Switch
+                id="use-external-ai"
+                checked={useExternalAI}
+                onCheckedChange={setUseExternalAI}
+                className="data-[state=checked]:bg-vendeai-gold"
+              />
             </div>
             
-            {useExternalAI && <>
+            {useExternalAI && (
+              <>
                 <div className="space-y-2">
                   <Label htmlFor="api-key" className="text-white">OpenRouter API Key</Label>
-                  <Input id="api-key" value={apiKey} onChange={e => setApiKey(e.target.value)} type="password" placeholder="sk-or-v1-..." className="bg-black text-white border-vendeai-gold/20" />
+                  <Input
+                    id="api-key"
+                    value={apiKey}
+                    onChange={(e) => setApiKey(e.target.value)}
+                    type="password"
+                    placeholder="sk-or-v1-..."
+                    className="bg-black text-white border-vendeai-gold/20"
+                  />
                   <p className="text-xs text-gray-400">
                     Sua chave API é armazenada apenas no seu navegador e nunca é enviada para nossos servidores.
                   </p>
@@ -635,7 +779,12 @@ export const AIAssistant = ({
                 
                 <div className="space-y-2">
                   <Label htmlFor="model-select" className="text-white">Modelo</Label>
-                  <select id="model-select" value={externalModel} onChange={e => setExternalModel(e.target.value)} className="w-full bg-black text-white border border-vendeai-gold/20 rounded-md p-2">
+                  <select
+                    id="model-select"
+                    value={externalModel}
+                    onChange={(e) => setExternalModel(e.target.value)}
+                    className="w-full bg-black text-white border border-vendeai-gold/20 rounded-md p-2"
+                  >
                     <option value="deepseek-v3-open-instruct">DeepSeek V3 (Recomendado)</option>
                     <option value="meta-llama/llama-3-70b-instruct">Meta Llama 3 70B</option>
                     <option value="anthropic/claude-3-opus:beta">Claude 3 Opus</option>
@@ -646,19 +795,29 @@ export const AIAssistant = ({
                     Certos modelos podem ter custos por uso através da OpenRouter.
                   </p>
                 </div>
-              </>}
+              </>
+            )}
           </div>
           
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsApiKeyDialogOpen(false)} className="text-vendeai-gold border-vendeai-gold/30 hover:bg-vendeai-gold/10">
+            <Button 
+              variant="outline" 
+              onClick={() => setIsApiKeyDialogOpen(false)}
+              className="text-vendeai-gold border-vendeai-gold/30 hover:bg-vendeai-gold/10"
+            >
               Cancelar
             </Button>
-            <Button onClick={saveApiKey} className="gradient-gold text-black">
+            <Button 
+              onClick={saveApiKey}
+              className="gradient-gold text-black"
+            >
               Salvar configurações
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </>;
+    </>
+  );
 };
+
 export default AIAssistant;
