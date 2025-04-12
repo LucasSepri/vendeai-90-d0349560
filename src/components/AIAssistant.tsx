@@ -448,14 +448,14 @@ export const AIAssistant = ({
               </div>
               
               <ScrollArea className="p-6 pt-2 h-[350px] bg-slate-50">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 bg-zinc-950 px-[3px] py-[9px] rounded">
                   {messages.map(message => <div key={message.id} className={`flex gap-3 ${message.role === "assistant" ? "items-start" : "items-start justify-end"}`}>
-                      {message.role === "assistant" && <div className="bg-vendeai-gold/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      {message.role === "assistant" && <div className="bg-vendeai-gold/20 h-8 w-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 mx-[7px]">
                           <Bot className="h-4 w-4 text-vendeai-gold" />
                         </div>}
                       
-                      <div className={`rounded-lg p-3 max-w-[85%] ${message.role === "assistant" ? "bg-vendeai-gray/10 text-white" : "bg-vendeai-gold/10 text-white"}`}>
-                        <p className="text-sm">{message.content}</p>
+                      <div className="">
+                        <p className="text-sm text-zinc-50 my-0">{message.content}</p>
                         <div className="mt-1 text-xs text-gray-400 flex items-center gap-1">
                           {new Date(message.timestamp).toLocaleTimeString()}
                           {message.context && <span className="ml-2 bg-vendeai-gold/10 px-1.5 py-0.5 rounded-full text-xs">
