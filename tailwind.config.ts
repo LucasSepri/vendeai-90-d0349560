@@ -75,6 +75,15 @@ export default {
 					darkgold: '#7e4e11',
 					gray: '#333333',
 					lightgray: '#F1F1F1'
+				},
+				ticto: {
+					DEFAULT: '#000000',
+					gold: '#c48c40',
+					darkgold: '#8B6914',
+					'gold-gradient-start': '#D4AF37',
+					'gold-gradient-end': '#C5A028',
+					bg: '#0e0e0e',
+					card: 'rgba(30, 30, 30, 0.7)'
 				}
 			},
 			borderRadius: {
