@@ -5,7 +5,7 @@ const HeroSection = () => {
   const features = ["Teste grátis por 14 dias", "Instalação simples", "Sem contrato de fidelidade"];
   return <section className="pt-28 pb-24 bg-black relative overflow-hidden">
       {/* Background gradient effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#995e16] opacity-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#995e16] opacity-90"></div>
       
       {/* Badge at the top */}
       <div className="container mx-auto px-4 relative z-10">
