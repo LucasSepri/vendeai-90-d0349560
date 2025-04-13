@@ -11,7 +11,6 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import SiteGenerator from "./pages/SiteGenerator";
-import TictoLogin from "./pages/TictoLogin";
 
 // Create a new QueryClient instance outside of the component
 const queryClient = new QueryClient();
@@ -25,7 +24,6 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/ticto-login" element={<TictoLogin />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/site-generator" element={<SiteGenerator />} />

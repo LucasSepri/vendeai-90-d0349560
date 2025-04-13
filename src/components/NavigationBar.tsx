@@ -23,7 +23,7 @@ const NavigationBar = () => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link to="/ticto-login" className="text-white hover:text-vendeai-gold transition-all duration-300 flex items-center">
+            <Link to="/login" className="text-white hover:text-vendeai-gold transition-all duration-300 flex items-center">
               <LogIn size={18} className="mr-2" />
               <span>Entrar</span>
             </Link>
@@ -46,7 +46,7 @@ const NavigationBar = () => {
         {isMenuOpen && (
           <nav className="md:hidden bg-black pt-4 pb-6 px-4 mt-2 rounded-lg border border-vendeai-gold/20 shadow-lg animate-fade-in">
             <div className="flex flex-col space-y-4">
-              <Link to="/ticto-login" className="text-white hover:text-vendeai-gold transition duration-300 py-2 flex items-center" onClick={toggleMenu}>
+              <Link to="/login" className="text-white hover:text-vendeai-gold transition duration-300 py-2 flex items-center" onClick={toggleMenu}>
                 <LogIn size={18} className="mr-2" />
                 <span>Entrar</span>
               </Link>
