@@ -9,21 +9,19 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Lock, Mail, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
 const loginSchema = z.object({
   email: z.string().email("E-mail inválido").min(1, "E-mail é obrigatório"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres")
 });
-
 type LoginFormValues = z.infer<typeof loginSchema>;
-
 const Login = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
   const [loginError, setLoginError] = useState("");
-
   useEffect(() => {
     const getIpAddress = async () => {
       try {
@@ -35,10 +33,8 @@ const Login = () => {
         setIpAddress("127.0.0.1");
       }
     };
-    
     getIpAddress();
   }, []);
-
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -46,34 +42,27 @@ const Login = () => {
       password: ""
     }
   });
-
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     setLoginError("");
-    
     try {
       const users = JSON.parse(localStorage.getItem('vendeai_users') || '[]');
-      
       const user = users.find((u: any) => u.email === data.email);
-      
       if (!user) {
         setLoginError("Conta não encontrada. Verifique seus dados ou crie uma conta.");
         setIsLoading(false);
         return;
       }
-      
       if (user.password !== data.password) {
         setLoginError("Senha incorreta. Tente novamente.");
         setIsLoading(false);
         return;
       }
-      
       if (user.ipAddress && user.ipAddress !== ipAddress) {
         setLoginError("Acesso não autorizado. Esta conta só pode ser acessada do dispositivo original.");
         setIsLoading(false);
         return;
       }
-      
       localStorage.setItem('vendeai_currentUser', JSON.stringify({
         email: user.email,
         referralCode: user.referralCode,
@@ -83,12 +72,10 @@ const Login = () => {
         referrals: user.referrals || 0,
         ipAddress: ipAddress
       }));
-      
       toast({
         title: "Login bem-sucedido",
-        description: "Bem-vindo de volta ao VendeAI!",
+        description: "Bem-vindo de volta ao VendeAI!"
       });
-      
       navigate("/dashboard");
     } catch (error) {
       toast({
@@ -100,18 +87,12 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-vendeai flex items-center justify-center p-4">
+  return <div className="min-h-screen bg-vendeai flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link to="/" className="inline-block">
             <div className="flex justify-center mb-2">
-              <img 
-                src="/lovable-uploads/a82f2ab5-9796-41d6-a7b6-2ab258f14a9b.png" 
-                alt="Lucre AI Logo" 
-                className="h-20"
-              />
+              <img alt="Lucre AI Logo" src="/lovable-uploads/d8f0ed69-36f2-4092-bc51-10156dca574a.png" className="h-20" />
             </div>
           </Link>
           <p className="text-vendeai-lightgray text-sm mt-2">por Vendigit</p>
@@ -125,66 +106,40 @@ const Login = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {loginError && (
-              <div className="mb-4 p-3 bg-destructive/20 border border-destructive/50 rounded-md flex items-start gap-2">
+            {loginError && <div className="mb-4 p-3 bg-destructive/20 border border-destructive/50 rounded-md flex items-start gap-2">
                 <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
                 <p className="text-sm text-destructive">{loginError}</p>
-              </div>
-            )}
+              </div>}
             
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
+                <FormField control={form.control} name="email" render={({
+                field
+              }) => <FormItem>
                       <FormLabel>E-mail</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input
-                            {...field}
-                            placeholder="seu@email.com.br"
-                            type="email"
-                            className="pl-10"
-                            disabled={isLoading}
-                          />
+                          <Input {...field} placeholder="seu@email.com.br" type="email" className="pl-10" disabled={isLoading} />
                         </div>
                       </FormControl>
                       <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    </FormItem>} />
                 
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
+                <FormField control={form.control} name="password" render={({
+                field
+              }) => <FormItem>
                       <FormLabel>Senha</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input
-                            {...field}
-                            type="password"
-                            placeholder="********"
-                            className="pl-10"
-                            disabled={isLoading}
-                          />
+                          <Input {...field} type="password" placeholder="********" className="pl-10" disabled={isLoading} />
                         </div>
                       </FormControl>
                       <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    </FormItem>} />
                 
-                <Button 
-                  type="submit" 
-                  className="w-full gradient-gold" 
-                  disabled={isLoading}
-                >
+                <Button type="submit" className="w-full gradient-gold" disabled={isLoading}>
                   {isLoading ? "Entrando..." : "Entrar"}
                 </Button>
               </form>
@@ -216,8 +171,6 @@ const Login = () => {
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Login;
