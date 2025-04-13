@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import React from "react";
 import { TemplatesSection } from "./sections/TemplatesSection";
 import { PagesSection } from "./sections/PagesSection";
 import { IntegrationsSection } from "./sections/IntegrationsSection";

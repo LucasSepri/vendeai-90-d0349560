@@ -1,5 +1,5 @@
 
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { ChevronLeft, Save, Eye, Settings, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Template, DragElement } from "../types";
