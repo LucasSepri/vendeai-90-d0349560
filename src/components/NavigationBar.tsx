@@ -12,7 +12,7 @@ const NavigationBar = () => {
         <div className="flex justify-between items-center my-px mx-0 px-0 py-px">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img alt="Lucre AI Logo" src="/lovable-uploads/fe82411e-da54-4c23-90c1-0bdd7d708dea.png" className="h-20 object-contain" />
+              <img alt="Lucre AI Logo" className="h-20 object-contain" src="/lovable-uploads/1d42bd64-bc31-432a-b220-e8f892382a0c.png" />
             </Link>
           </div>
           
