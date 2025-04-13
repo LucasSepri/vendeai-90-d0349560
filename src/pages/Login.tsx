@@ -108,8 +108,8 @@ const Login = () => {
           <Link to="/" className="inline-block">
             <div className="flex justify-center mb-2">
               <img 
-                src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" 
-                alt="Vendigit Logo" 
+                src="/lovable-uploads/7f27bfb7-609f-4838-a53c-09a2636b94b8.png" 
+                alt="Lucre AI Logo" 
                 className="h-12"
               />
             </div>

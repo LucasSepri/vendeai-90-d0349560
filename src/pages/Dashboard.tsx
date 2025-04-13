@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import AIAssistant from "@/components/AIAssistant";
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const {
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+
   const menuItems = [{
     icon: MessageSquare,
     label: "Funil com IA",
@@ -42,6 +44,7 @@ const Dashboard = () => {
     path: "/dashboard/site-generator",
     highlight: true
   }];
+
   useEffect(() => {
     const storedUser = localStorage.getItem('vendeai_currentUser');
     if (!storedUser) {
@@ -63,6 +66,7 @@ const Dashboard = () => {
       setLoading(false);
     }
   }, [navigate, toast]);
+
   const handleLogout = () => {
     localStorage.removeItem('vendeai_currentUser');
     toast({
@@ -71,22 +75,30 @@ const Dashboard = () => {
     });
     navigate('/login');
   };
+
   if (loading) {
     return <div className="min-h-screen bg-vendeai flex items-center justify-center">
         <div className="text-white">Carregando...</div>
       </div>;
   }
+
   const referralsNeeded = 15;
   const referralsProgress = Math.min(100, (userData?.referrals || 0) / referralsNeeded * 100);
   const referralsRemaining = Math.max(0, referralsNeeded - (userData?.referrals || 0));
-  return <div className="min-h-screen bg-vendeai flex flex-col">
+
+  return (
+    <div className="min-h-screen bg-vendeai flex flex-col">
       <AIAssistant open={isAssistantOpen} onOpenChange={setIsAssistantOpen} />
       
       <div className="flex flex-1">
         <div className="hidden md:flex w-64 flex-col bg-vendeai border-r border-vendeai-gold/20 fixed h-full">
           <div className="p-4 border-b border-vendeai-gold/20">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <img src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" alt="Vendigit Logo" className="h-8" />
+              <img 
+                src="/lovable-uploads/7f27bfb7-609f-4838-a53c-09a2636b94b8.png" 
+                alt="Lucre AI Logo" 
+                className="h-8" 
+              />
               <span className="text-xl font-semibold text-white">
                 Lucre<span className="text-vendeai-gold">AI</span>
               </span>
@@ -424,6 +436,8 @@ const Dashboard = () => {
           </main>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default Dashboard;
