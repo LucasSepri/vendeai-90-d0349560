@@ -1,4 +1,3 @@
-
 #root {
   width: 100%;
   margin: 0 auto;
@@ -10,7 +9,8 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
 }
 
 .logo {
@@ -52,7 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .gradient-gold {
-  background: linear-gradient(to right, #a66717, #c48c40, #a66717);
+  background: linear-gradient(to right, #a66717, #a66717, #a66717);
   color: #000000;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -64,7 +64,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .gradient-gold:disabled {
-  background: linear-gradient(to right, #a66717, #c48c40, #a66717);
+  background: linear-gradient(to right, #a66717, #a66717, #a66717);
   opacity: 0.6;
 }
 

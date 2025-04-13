@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -103,11 +103,11 @@
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-playfair font-semibold;
+    @apply font-poppins font-semibold;
   }
   
   .gradient-gold {
-    @apply bg-gradient-to-r from-vendeai-gold to-vendeai-lightgold;
+    @apply bg-gradient-to-r from-vendeai-gold to-vendeai-gold;
   }
   
   .btn-primary {

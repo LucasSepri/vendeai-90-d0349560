@@ -1,10 +1,11 @@
 
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const HeroSection = () => {
   return (
-    <section className="pt-24 pb-24 bg-vendeai relative overflow-hidden">
+    <section className="pt-28 pb-24 bg-black relative overflow-hidden">
       {/* Background gradient effect */}
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#120022] opacity-90"></div>
       
@@ -27,18 +28,17 @@ const HeroSection = () => {
             que você precisa para maximizar seus resultados.
           </p>
           
-          {/* CTA Button with gradient */}
+          {/* CTA Button with Ticto-style border effect */}
           <div className="flex justify-center">
-            <Button asChild className="rounded-full text-white py-6 px-8 text-lg">
-              <Link to="/register" className="group relative overflow-hidden bg-gradient-to-r from-[#ff5770] to-[#9d66ff] hover:from-[#ff5770] hover:to-[#b38aff]">
-                <span className="inline-flex items-center">
+            <div className="relative group">
+              <Button asChild className="relative z-10 bg-transparent hover:bg-vendeai-gold text-white hover:text-black border border-vendeai-gold rounded-md py-6 px-8 text-lg transition-all duration-300">
+                <Link to="/register" className="flex items-center">
                   Crie sua conta
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </span>
-              </Link>
-            </Button>
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+              <div className="absolute inset-0 rounded-md border border-vendeai-gold -m-[1px] opacity-30 group-hover:opacity-0 transition-all duration-300"></div>
+            </div>
           </div>
         </div>
       </div>
