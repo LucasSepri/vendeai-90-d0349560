@@ -9,10 +9,10 @@ const NavigationBar = () => {
   };
   return <header className="fixed w-full top-0 z-50 bg-vendeai/95 backdrop-blur-sm border-b border-vendeai-gold/20">
       <div className="container mx-auto px-4 py-4">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center my-px mx-0 px-0 py-px">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img alt="Lucre AI Logo" src="/lovable-uploads/a0b635e7-dbaf-477f-80fe-5cd3ed54346d.png" className="h-12 object-cover" />
+              <img alt="Lucre AI Logo" className="h-12 object-contain" src="/lovable-uploads/b36122b2-a194-474e-8f70-a1b92e7090b7.png" />
             </Link>
           </div>
           
