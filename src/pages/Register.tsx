@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -32,10 +31,8 @@ const Register = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
   
-  // Get the plan from URL state if available
   const preselectedPlan = location.state?.plan || "free";
 
-  // Get user's IP address
   useEffect(() => {
     const getIpAddress = async () => {
       try {
@@ -44,7 +41,6 @@ const Register = () => {
         setIpAddress(data.ip);
       } catch (error) {
         console.error("Failed to get IP address:", error);
-        // Fallback to a generated IP for development
         setIpAddress("127.0.0.1");
       }
     };
@@ -68,21 +64,17 @@ const Register = () => {
     setIsLoading(true);
     
     try {
-      // Generate a unique activation key (this would be stored securely, not visible to user)
       const activationKey = crypto.randomUUID();
       
-      // Generate a referral code
       const referralCode = "VENDE" + Math.floor(1000 + Math.random() * 9000);
       
-      // Check if a referral code was used
       const usedReferralCode = data.referralCode ? data.referralCode.trim() : null;
       
-      // Store user data in localStorage (in a real app, this would go to a backend)
       const userData = {
         companyName: data.companyName,
         ownerName: data.ownerName,
         email: data.email,
-        password: data.password, // In a real app, this would be hashed
+        password: data.password,
         plan: data.plan,
         ipAddress: ipAddress,
         activationKey: activationKey,
@@ -93,10 +85,8 @@ const Register = () => {
         isActive: true
       };
       
-      // Store user in "database" (localStorage)
       const existingUsers = JSON.parse(localStorage.getItem('vendeai_users') || '[]');
       
-      // Check if email already exists
       const emailExists = existingUsers.some((user: any) => user.email === data.email);
       if (emailExists) {
         toast({
@@ -109,11 +99,9 @@ const Register = () => {
         return;
       }
       
-      // Add user to "database"
       existingUsers.push(userData);
       localStorage.setItem('vendeai_users', JSON.stringify(existingUsers));
       
-      // If a referral code was used, update the referrer's referral count
       if (usedReferralCode) {
         const updatedUsers = existingUsers.map((user: any) => {
           if (user.referralCode === usedReferralCode) {
@@ -127,7 +115,6 @@ const Register = () => {
         localStorage.setItem('vendeai_users', JSON.stringify(updatedUsers));
       }
       
-      // Store current user for session
       localStorage.setItem('vendeai_currentUser', JSON.stringify({
         email: data.email,
         referralCode: referralCode,
@@ -136,10 +123,9 @@ const Register = () => {
       
       toast({
         title: "Cadastro realizado com sucesso!",
-        description: "Bem-vindo à VendeAI. Faça login para acessar sua conta.",
+        description: "Bem-vindo à LucreAI. Faça login para acessar sua conta.",
       });
       
-      // Redirect to login page
       navigate("/login");
       setIsLoading(false);
     } catch (error) {
@@ -183,7 +169,7 @@ const Register = () => {
               />
             </div>
             <div className="text-2xl font-semibold text-white">
-              Vende<span className="text-vendeai-gold">AI</span>
+              Lucre<span className="text-vendeai-gold">AI</span>
             </div>
           </Link>
           <p className="text-vendeai-lightgray text-sm mt-2">por Vendigit</p>

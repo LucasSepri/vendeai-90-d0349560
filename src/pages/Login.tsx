@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -25,7 +24,6 @@ const Login = () => {
   const [ipAddress, setIpAddress] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  // Get user's IP address
   useEffect(() => {
     const getIpAddress = async () => {
       try {
@@ -34,7 +32,6 @@ const Login = () => {
         setIpAddress(data.ip);
       } catch (error) {
         console.error("Failed to get IP address:", error);
-        // Fallback to a generated IP for development
         setIpAddress("127.0.0.1");
       }
     };
@@ -55,34 +52,28 @@ const Login = () => {
     setLoginError("");
     
     try {
-      // Retrieve users from "database" (localStorage)
       const users = JSON.parse(localStorage.getItem('vendeai_users') || '[]');
       
-      // Find user by email
       const user = users.find((u: any) => u.email === data.email);
       
-      // Check if user exists
       if (!user) {
         setLoginError("Conta não encontrada. Verifique seus dados ou crie uma conta.");
         setIsLoading(false);
         return;
       }
       
-      // Verify password
       if (user.password !== data.password) {
         setLoginError("Senha incorreta. Tente novamente.");
         setIsLoading(false);
         return;
       }
       
-      // Verify IP address (anti-sharing mechanism)
       if (user.ipAddress && user.ipAddress !== ipAddress) {
         setLoginError("Acesso não autorizado. Esta conta só pode ser acessada do dispositivo original.");
         setIsLoading(false);
         return;
       }
       
-      // Store user session
       localStorage.setItem('vendeai_currentUser', JSON.stringify({
         email: user.email,
         referralCode: user.referralCode,
@@ -98,7 +89,6 @@ const Login = () => {
         description: "Bem-vindo de volta ao VendeAI!",
       });
       
-      // Redirect to success page
       navigate("/dashboard");
     } catch (error) {
       toast({
@@ -124,7 +114,7 @@ const Login = () => {
               />
             </div>
             <div className="text-2xl font-semibold text-white">
-              Vende<span className="text-vendeai-gold">AI</span>
+              Lucre<span className="text-vendeai-gold">AI</span>
             </div>
           </Link>
           <p className="text-vendeai-lightgray text-sm mt-2">por Vendigit</p>

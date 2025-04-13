@@ -88,7 +88,7 @@ const Dashboard = () => {
             <Link to="/" className="flex items-center gap-2 mb-4">
               <img src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" alt="Vendigit Logo" className="h-8" />
               <span className="text-xl font-semibold text-white">
-                Vende<span className="text-vendeai-gold">AI</span>
+                Lucre<span className="text-vendeai-gold">AI</span>
               </span>
             </Link>
           </div>
@@ -154,7 +154,7 @@ const Dashboard = () => {
                   <div className="flex items-center gap-2">
                     <img src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" alt="Vendigit Logo" className="h-8" />
                     <span className="text-xl font-semibold text-white">
-                      Vende<span className="text-vendeai-gold">AI</span>
+                      Lucre<span className="text-vendeai-gold">AI</span>
                     </span>
                   </div>
                 </Link>
@@ -185,7 +185,7 @@ const Dashboard = () => {
               <Card className="border-vendeai-gold/20 shadow-md bg-gradient-to-r from-vendeai to-vendeai">
                 <CardHeader>
                   <CardTitle className="text-white">
-                    Bem-vindo ao VendeAI, {userData?.ownerName?.split(' ')[0] || 'Usuário'}!
+                    Bem-vindo ao LucreAI, {userData?.ownerName?.split(' ')[0] || 'Usuário'}!
                   </CardTitle>
                   <CardDescription className="text-vendeai-lightgray">
                     Este é o seu painel de controle. Acesse todas as funcionalidades abaixo.
@@ -388,7 +388,7 @@ const Dashboard = () => {
                 <div className="flex flex-col md:flex-row gap-4 items-center">
                   <div className="w-full md:w-2/3">
                     <p className="text-vendeai-lightgray mb-4">
-                      Com o Gerador de Sites da VendeAI, você pode criar sites personalizados para diferentes nichos de mercado,
+                      Com o Gerador de Sites da LucreAI, você pode criar sites personalizados para diferentes nichos de mercado,
                       com templates profissionais e totalmente editáveis.
                     </p>
                     <Button asChild className="gradient-gold">

@@ -5,7 +5,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <a href="/" className="flex items-center mb-4">
-              <span className="text-2xl font-semibold text-white mr-2">Vende<span className="text-vendeai-gold">AI</span></span>
+              <span className="text-2xl font-semibold text-white mr-2">Lucre<span className="text-vendeai-gold">AI</span></span>
             </a>
             <p className="text-gray-400 mb-4">
               Transformando pequenos e médios negócios com automação de vendas inteligente.

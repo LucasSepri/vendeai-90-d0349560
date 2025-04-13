@@ -17,7 +17,7 @@ const NavigationBar = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <span className="text-2xl font-semibold text-white mr-2">Vende<span className="text-vendeai-gold">AI</span></span>
+              <span className="text-2xl font-semibold text-white mr-2">Lucre<span className="text-vendeai-gold">AI</span></span>
               <span className="text-xs text-vendeai-gold">por Vendigit</span>
             </Link>
           </div>
