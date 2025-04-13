@@ -94,7 +94,7 @@ const Dashboard = () => {
           </div>
           
           <nav className="flex-1 p-4">
-            <div className="space-y-1">
+            <div className="space-y-1 bg-inherit">
               <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
                 <LayoutDashboard className="h-5 w-5" />
                 <span>Dashboard</span>
