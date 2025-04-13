@@ -22,3 +22,25 @@ export interface MenuItem {
   label: string;
   icon: LucideIcon;
 }
+
+export interface DragElement {
+  id: string;
+  type: "text" | "image" | "button" | "form" | "section" | "container";
+  content: string;
+  style?: Record<string, string>;
+  children?: DragElement[];
+}
+
+export interface EditorSection {
+  id: string;
+  name: string;
+  elements: DragElement[];
+}
+
+export interface AnalyticsData {
+  views: number;
+  conversionRate: number;
+  sales: number;
+  salesGoal: number;
+  elementPerformance: Record<string, number>;
+}

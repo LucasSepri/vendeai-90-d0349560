@@ -11,15 +11,13 @@ import {
   Briefcase, 
   ArrowRight
 } from "lucide-react";
+import { Template } from "../types";
 
-interface Template {
-  id: string;
-  name: string;
-  category: string;
-  image: string;
+interface TemplatesSectionProps {
+  onEditTemplate?: (template: Template) => void;
 }
 
-export function TemplatesSection() {
+export function TemplatesSection({ onEditTemplate }: TemplatesSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState("ecommerce");
   
   const categories = [
@@ -50,9 +48,10 @@ export function TemplatesSection() {
     template => template.category === selectedCategory
   );
 
-  const handleEditTemplate = (templateId: string) => {
-    console.log(`Editing template: ${templateId}`);
-    // Aqui adicionaria a lógica para abrir o editor WYSIWYG
+  const handleEditTemplate = (template: Template) => {
+    if (onEditTemplate) {
+      onEditTemplate(template);
+    }
   };
 
   return (
@@ -94,9 +93,9 @@ export function TemplatesSection() {
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <Button 
                       className="gradient-gold"
-                      onClick={() => handleEditTemplate(template.id)}
+                      onClick={() => handleEditTemplate(template)}
                     >
-                      Visualizar Template
+                      Editar Template
                     </Button>
                   </div>
                 </div>
@@ -107,7 +106,7 @@ export function TemplatesSection() {
                       variant="ghost" 
                       size="sm" 
                       className="text-vendeai-gold hover:text-vendeai-gold hover:bg-vendeai-gold/10"
-                      onClick={() => handleEditTemplate(template.id)}
+                      onClick={() => handleEditTemplate(template)}
                     >
                       Editar <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
