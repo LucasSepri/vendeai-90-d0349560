@@ -9,9 +9,7 @@ import AIAssistant from "@/components/AIAssistant";
 
 const Dashboard = () => {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
@@ -95,13 +93,10 @@ const Dashboard = () => {
           <div className="p-4 border-b border-vendeai-gold/20">
             <Link to="/" className="flex items-center gap-2 mb-4">
               <img 
-                src="/lovable-uploads/7f27bfb7-609f-4838-a53c-09a2636b94b8.png" 
+                src="/lovable-uploads/a82f2ab5-9796-41d6-a7b6-2ab258f14a9b.png" 
                 alt="Lucre AI Logo" 
-                className="h-8" 
+                className="h-12" 
               />
-              <span className="text-xl font-semibold text-white">
-                Lucre<span className="text-vendeai-gold">AI</span>
-              </span>
             </Link>
           </div>
           
@@ -164,10 +159,11 @@ const Dashboard = () => {
               <div className="flex items-center gap-3 md:hidden">
                 <Link to="/">
                   <div className="flex items-center gap-2">
-                    <img src="/lovable-uploads/9cfbc124-fed8-43bf-9903-c387d361d0ed.png" alt="Vendigit Logo" className="h-8" />
-                    <span className="text-xl font-semibold text-white">
-                      Lucre<span className="text-vendeai-gold">AI</span>
-                    </span>
+                    <img 
+                      src="/lovable-uploads/9e4e3bad-03fc-4d24-93a7-2635f07eec3a.png" 
+                      alt="Lucre AI Logo" 
+                      className="h-8" 
+                    />
                   </div>
                 </Link>
               </div>

@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
@@ -17,12 +18,10 @@ const NavigationBar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <img 
-                src="/lovable-uploads/7f27bfb7-609f-4838-a53c-09a2636b94b8.png" 
+                src="/lovable-uploads/9e4e3bad-03fc-4d24-93a7-2635f07eec3a.png" 
                 alt="Lucre AI Logo" 
-                className="h-10 mr-2"
+                className="h-12"
               />
-              <span className="text-2xl font-semibold text-white mr-2">Lucre<span className="text-vendeai-gold">AI</span></span>
-              <span className="text-xs text-vendeai-gold">por Vendigit</span>
             </Link>
           </div>
           

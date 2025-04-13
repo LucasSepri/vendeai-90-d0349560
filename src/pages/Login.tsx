@@ -108,13 +108,10 @@ const Login = () => {
           <Link to="/" className="inline-block">
             <div className="flex justify-center mb-2">
               <img 
-                src="/lovable-uploads/7f27bfb7-609f-4838-a53c-09a2636b94b8.png" 
+                src="/lovable-uploads/a82f2ab5-9796-41d6-a7b6-2ab258f14a9b.png" 
                 alt="Lucre AI Logo" 
-                className="h-12"
+                className="h-20"
               />
-            </div>
-            <div className="text-2xl font-semibold text-white">
-              Lucre<span className="text-vendeai-gold">AI</span>
             </div>
           </Link>
           <p className="text-vendeai-lightgray text-sm mt-2">por Vendigit</p>
