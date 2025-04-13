@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 const HeroSection = () => {
   return <section className="pt-32 pb-20 md:py-40 bg-vendeai relative overflow-hidden">
@@ -8,7 +9,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white animate-fade-in leading-tight">
-            Venda mais, sem precisar de uma <span className="text-[a66717] text-[#bd6c07]">equipe</span>
+            Venda mais, sem precisar de uma <span className="text-[#a66717]">equipe</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-300 mb-8 animate-fade-in delay-100 md:px-12">
             Aumente suas vendas com nossa plataforma de automação inteligente. A VendeAI usa inteligência artificial para criar funis de vendas, gerar scripts e automatizar seu atendimento.

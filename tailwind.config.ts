@@ -70,9 +70,9 @@ export default {
 				vendeai: {
 					DEFAULT: '#000000',
 					foreground: '#FFFFFF',
-					gold: '#D4AF37',
-					lightgold: '#F2D778',
-					darkgold: '#B8860B',
+					gold: '#a66717',
+					lightgold: '#c48c40',
+					darkgold: '#7e4e11',
 					gray: '#333333',
 					lightgray: '#F1F1F1'
 				}
