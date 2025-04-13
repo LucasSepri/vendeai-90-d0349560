@@ -1,19 +1,11 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
-
 const HeroSection = () => {
-  const features = [
-    "Teste grátis por 14 dias",
-    "Instalação simples",
-    "Sem contrato de fidelidade"
-  ];
-  
-  return (
-    <section className="pt-28 pb-24 bg-black relative overflow-hidden">
+  const features = ["Teste grátis por 14 dias", "Instalação simples", "Sem contrato de fidelidade"];
+  return <section className="pt-28 pb-24 bg-black relative overflow-hidden">
       {/* Background gradient effect */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#120022] opacity-90"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black to-[#995e16] opacity-90"></div>
       
       {/* Badge at the top */}
       <div className="container mx-auto px-4 relative z-10">
@@ -51,19 +43,15 @@ const HeroSection = () => {
           
           {/* Features with checkmarks */}
           <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 mt-12">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center">
+            {features.map((feature, index) => <div key={index} className="flex items-center">
                 <div className="rounded-full bg-vendeai-gold/20 p-1 mr-2 flex items-center justify-center">
                   <Check className="h-4 w-4 text-vendeai-gold" />
                 </div>
                 <span className="text-sm text-gray-300">{feature}</span>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
