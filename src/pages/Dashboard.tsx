@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Gift, User, Settings, LogOut, LayoutDashboard, Users, MessageSquare, FileText, ShoppingBag, Store, ChevronRight, Crown, Bot } from "lucide-react";
+import { ArrowLeft, Gift, User, Settings, LogOut, LayoutDashboard, Users, MessageSquare, FileText, ShoppingBag, Store, ChevronRight, Crown, Bot, Globe } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import AIAssistant from "@/components/AIAssistant";
+
 const Dashboard = () => {
   const navigate = useNavigate();
   const {
@@ -14,6 +15,43 @@ const Dashboard = () => {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+
+  const menuItems = [
+    {
+      icon: MessageSquare,
+      label: "Funil com IA",
+      path: "/dashboard/funnel",
+    },
+    {
+      icon: FileText,
+      label: "Scripts Automáticos",
+      path: "/dashboard/scripts",
+    },
+    {
+      icon: ShoppingBag,
+      label: "Controle de Estoque",
+      path: "/dashboard/inventory",
+      soon: true,
+    },
+    {
+      icon: Store,
+      label: "PDV",
+      path: "/dashboard/pos",
+      soon: true,
+    },
+    {
+      icon: Bot,
+      label: "Assistente IA",
+      action: () => setIsAssistantOpen(true),
+    },
+    {
+      icon: Globe,
+      label: "Gerador de Sites",
+      path: "/dashboard/site-generator",
+      highlight: true,
+    },
+  ];
+
   useEffect(() => {
     const storedUser = localStorage.getItem('vendeai_currentUser');
     if (!storedUser) {
@@ -35,6 +73,7 @@ const Dashboard = () => {
       setLoading(false);
     }
   }, [navigate, toast]);
+
   const handleLogout = () => {
     localStorage.removeItem('vendeai_currentUser');
     toast({
@@ -43,14 +82,17 @@ const Dashboard = () => {
     });
     navigate('/login');
   };
+
   if (loading) {
     return <div className="min-h-screen bg-vendeai flex items-center justify-center">
         <div className="text-white">Carregando...</div>
       </div>;
   }
+
   const referralsNeeded = 15;
   const referralsProgress = Math.min(100, (userData?.referrals || 0) / referralsNeeded * 100);
   const referralsRemaining = Math.max(0, referralsNeeded - (userData?.referrals || 0));
+
   return <div className="min-h-screen bg-vendeai flex flex-col">
       <AIAssistant open={isAssistantOpen} onOpenChange={setIsAssistantOpen} />
       
@@ -72,30 +114,38 @@ const Dashboard = () => {
                 <span>Dashboard</span>
               </Button>
               
-              <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
-                <MessageSquare className="h-5 w-5" />
-                <span>Funil com IA</span>
-              </Button>
-              
-              <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
-                <FileText className="h-5 w-5" />
-                <span>Scripts Automáticos</span>
-              </Button>
-              
-              <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
-                <ShoppingBag className="h-5 w-5" />
-                <span>Controle de Estoque</span>
-              </Button>
-              
-              <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
-                <Store className="h-5 w-5" />
-                <span>PDV</span>
-              </Button>
-              
-              <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold" onClick={() => setIsAssistantOpen(true)}>
-                <Bot className="h-5 w-5" />
-                <span>Assistente IA</span>
-              </Button>
+              {menuItems.map((item, index) => (
+                item.action ? (
+                  <Button 
+                    key={index}
+                    variant="ghost" 
+                    className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold"
+                    onClick={item.action}
+                  >
+                    <item.icon className="h-5 w-5" />
+                    <span>{item.label}</span>
+                  </Button>
+                ) : (
+                  <Button 
+                    key={index}
+                    variant="ghost" 
+                    className={`w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold ${
+                      item.highlight ? 'border-l-2 border-vendeai-gold text-vendeai-gold bg-vendeai-gold/5' : ''
+                    }`}
+                    asChild
+                  >
+                    <Link to={item.path}>
+                      <item.icon className="h-5 w-5" />
+                      <span>{item.label}</span>
+                      {item.soon && (
+                        <div className="ml-auto text-xs bg-vendeai-gold/20 text-vendeai-gold px-2 py-1 rounded">
+                          Em breve
+                        </div>
+                      )}
+                    </Link>
+                  </Button>
+                )
+              ))}
             </div>
             
             <div className="pt-6 mt-6 border-t border-vendeai-gold/10">
@@ -359,9 +409,58 @@ const Dashboard = () => {
                 </div>
               </CardContent>
             </Card>
+            
+            <Card className="border-vendeai-gold/20 shadow-md mb-8">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-lg flex items-center gap-2">
+                  <Globe className="h-5 w-5 text-vendeai-gold" />
+                  Gerador de Sites
+                </CardTitle>
+                <CardDescription>
+                  Crie sites profissionais para seu negócio em minutos
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex flex-col md:flex-row gap-4 items-center">
+                  <div className="w-full md:w-2/3">
+                    <p className="text-vendeai-lightgray mb-4">
+                      Com o Gerador de Sites da VendeAI, você pode criar sites personalizados para diferentes nichos de mercado,
+                      com templates profissionais e totalmente editáveis.
+                    </p>
+                    <Button asChild className="gradient-gold">
+                      <Link to="/dashboard/site-generator">
+                        Acessar Gerador de Sites
+                      </Link>
+                    </Button>
+                  </div>
+                  <div className="w-full md:w-1/3 bg-vendeai-gold/10 p-4 rounded-lg border border-vendeai-gold/30">
+                    <h4 className="font-medium text-white mb-2">Recursos inclusos:</h4>
+                    <ul className="text-sm text-vendeai-lightgray space-y-1">
+                      <li className="flex items-center gap-1">
+                        <Check className="h-4 w-4 text-vendeai-gold" />
+                        Templates profissionais
+                      </li>
+                      <li className="flex items-center gap-1">
+                        <Check className="h-4 w-4 text-vendeai-gold" />
+                        Editor visual
+                      </li>
+                      <li className="flex items-center gap-1">
+                        <Check className="h-4 w-4 text-vendeai-gold" />
+                        Integrações
+                      </li>
+                      <li className="flex items-center gap-1">
+                        <Check className="h-4 w-4 text-vendeai-gold" />
+                        Domínio personalizado
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </main>
         </div>
       </div>
     </div>;
 };
+
 export default Dashboard;
