@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 const config = {
@@ -9,7 +10,11 @@ const config = {
       colors: {
         vendeai: {
           gold: '#D4AF37', // Adjust this gold color as needed
-        }
+          darkgold: '#A08B2C', // Darker gold for hover states
+        },
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
       },
     },
   },
