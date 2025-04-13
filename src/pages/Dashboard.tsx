@@ -1,7 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Gift, User, Settings, LogOut, LayoutDashboard, Users, MessageSquare, FileText, ShoppingBag, Store, ChevronRight, Crown, Bot, Globe } from "lucide-react";
+import { ArrowLeft, Gift, User, Settings, LogOut, LayoutDashboard, Users, MessageSquare, FileText, ShoppingBag, Store, ChevronRight, Crown, Bot, Globe, Check } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
