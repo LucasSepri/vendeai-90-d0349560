@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import AIAssistant from "@/components/AIAssistant";
-
 const Dashboard = () => {
   const navigate = useNavigate();
   const {
@@ -16,43 +14,34 @@ const Dashboard = () => {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
-
-  const menuItems = [
-    {
-      icon: MessageSquare,
-      label: "Funil com IA",
-      path: "/dashboard/funnel",
-    },
-    {
-      icon: FileText,
-      label: "Scripts Automáticos",
-      path: "/dashboard/scripts",
-    },
-    {
-      icon: ShoppingBag,
-      label: "Controle de Estoque",
-      path: "/dashboard/inventory",
-      soon: true,
-    },
-    {
-      icon: Store,
-      label: "PDV",
-      path: "/dashboard/pos",
-      soon: true,
-    },
-    {
-      icon: Bot,
-      label: "Assistente IA",
-      action: () => setIsAssistantOpen(true),
-    },
-    {
-      icon: Globe,
-      label: "Gerador de Sites",
-      path: "/dashboard/site-generator",
-      highlight: true,
-    },
-  ];
-
+  const menuItems = [{
+    icon: MessageSquare,
+    label: "Funil com IA",
+    path: "/dashboard/funnel"
+  }, {
+    icon: FileText,
+    label: "Scripts Automáticos",
+    path: "/dashboard/scripts"
+  }, {
+    icon: ShoppingBag,
+    label: "Controle de Estoque",
+    path: "/dashboard/inventory",
+    soon: true
+  }, {
+    icon: Store,
+    label: "PDV",
+    path: "/dashboard/pos",
+    soon: true
+  }, {
+    icon: Bot,
+    label: "Assistente IA",
+    action: () => setIsAssistantOpen(true)
+  }, {
+    icon: Globe,
+    label: "Gerador de Sites",
+    path: "/dashboard/site-generator",
+    highlight: true
+  }];
   useEffect(() => {
     const storedUser = localStorage.getItem('vendeai_currentUser');
     if (!storedUser) {
@@ -74,7 +63,6 @@ const Dashboard = () => {
       setLoading(false);
     }
   }, [navigate, toast]);
-
   const handleLogout = () => {
     localStorage.removeItem('vendeai_currentUser');
     toast({
@@ -83,17 +71,14 @@ const Dashboard = () => {
     });
     navigate('/login');
   };
-
   if (loading) {
     return <div className="min-h-screen bg-vendeai flex items-center justify-center">
         <div className="text-white">Carregando...</div>
       </div>;
   }
-
   const referralsNeeded = 15;
   const referralsProgress = Math.min(100, (userData?.referrals || 0) / referralsNeeded * 100);
   const referralsRemaining = Math.max(0, referralsNeeded - (userData?.referrals || 0));
-
   return <div className="min-h-screen bg-vendeai flex flex-col">
       <AIAssistant open={isAssistantOpen} onOpenChange={setIsAssistantOpen} />
       
@@ -115,38 +100,16 @@ const Dashboard = () => {
                 <span>Dashboard</span>
               </Button>
               
-              {menuItems.map((item, index) => (
-                item.action ? (
-                  <Button 
-                    key={index}
-                    variant="ghost" 
-                    className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold"
-                    onClick={item.action}
-                  >
+              {menuItems.map((item, index) => item.action ? <Button key={index} variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold" onClick={item.action}>
                     <item.icon className="h-5 w-5" />
                     <span>{item.label}</span>
-                  </Button>
-                ) : (
-                  <Button 
-                    key={index}
-                    variant="ghost" 
-                    className={`w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold ${
-                      item.highlight ? 'border-l-2 border-vendeai-gold text-vendeai-gold bg-vendeai-gold/5' : ''
-                    }`}
-                    asChild
-                  >
+                  </Button> : <Button key={index} variant="ghost" className={`w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold ${item.highlight ? 'border-l-2 border-vendeai-gold text-vendeai-gold bg-vendeai-gold/5' : ''}`} asChild>
                     <Link to={item.path}>
                       <item.icon className="h-5 w-5" />
                       <span>{item.label}</span>
-                      {item.soon && (
-                        <div className="ml-auto text-xs bg-vendeai-gold/20 text-vendeai-gold px-2 py-1 rounded">
-                          Em breve
-                        </div>
-                      )}
+                      {item.soon}
                     </Link>
-                  </Button>
-                )
-              ))}
+                  </Button>)}
             </div>
             
             <div className="pt-6 mt-6 border-t border-vendeai-gold/10">
@@ -463,5 +426,4 @@ const Dashboard = () => {
       </div>
     </div>;
 };
-
 export default Dashboard;
