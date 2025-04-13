@@ -71,3 +71,7 @@ h1, h2, h3, h4, h5, h6 {
 .bg-vendeai {
   background-color: #000000;
 }
+
+.hero-gradient {
+  background: linear-gradient(to bottom, #000000, #120022);
+}
