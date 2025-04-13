@@ -1,27 +1,18 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Link } from "react-router-dom";
-
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
-  return (
-    <header className="fixed w-full top-0 z-50 bg-vendeai/95 backdrop-blur-sm border-b border-vendeai-gold/20">
+  return <header className="fixed w-full top-0 z-50 bg-vendeai/95 backdrop-blur-sm border-b border-vendeai-gold/20">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
-              <img 
-                src="/lovable-uploads/9e4e3bad-03fc-4d24-93a7-2635f07eec3a.png" 
-                alt="Lucre AI Logo" 
-                className="h-12"
-              />
+              <img alt="Lucre AI Logo" src="/lovable-uploads/a0b635e7-dbaf-477f-80fe-5cd3ed54346d.png" className="h-12 object-cover" />
             </Link>
           </div>
           
@@ -42,17 +33,13 @@ const NavigationBar = () => {
           </nav>
           
           {/* Mobile menu button */}
-          <button 
-            className="md:hidden text-white focus:outline-none"
-            onClick={toggleMenu}
-          >
+          <button className="md:hidden text-white focus:outline-none" onClick={toggleMenu}>
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
         
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="md:hidden bg-vendeai pt-4 pb-6 px-4 mt-2 rounded-lg border border-vendeai-gold/20 shadow-lg animate-fade-in">
+        {isMenuOpen && <nav className="md:hidden bg-vendeai pt-4 pb-6 px-4 mt-2 rounded-lg border border-vendeai-gold/20 shadow-lg animate-fade-in">
             <div className="flex flex-col space-y-4">
               <a href="#recursos" className="text-white hover:text-vendeai-gold transition duration-300 py-2" onClick={toggleMenu}>Recursos</a>
               <a href="#como-funciona" className="text-white hover:text-vendeai-gold transition duration-300 py-2" onClick={toggleMenu}>Como Funciona</a>
@@ -65,11 +52,8 @@ const NavigationBar = () => {
                 <Link to="/register" onClick={toggleMenu}>Começar Grátis</Link>
               </Button>
             </div>
-          </nav>
-        )}
+          </nav>}
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default NavigationBar;
