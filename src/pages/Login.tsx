@@ -91,11 +91,11 @@ const Login = () => {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Link to="/" className="inline-block">
-            <div className="flex justify-center mb-2">
+            <div className="flex justify-center mb-2 px-0 my-0 py-[5px]">
               <img alt="Lucre AI Logo" src="/lovable-uploads/d8f0ed69-36f2-4092-bc51-10156dca574a.png" className="h-20" />
             </div>
           </Link>
-          <p className="text-vendeai-lightgray text-sm mt-2">por Vendigit</p>
+          
         </div>
         
         <Card className="border-vendeai-gold/20 shadow-lg">
