@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Login attempt with:", {
@@ -15,9 +17,11 @@ const Login = () => {
     });
     // Implementação futura do login
   };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   return <div className="flex min-h-screen w-full bg-black relative overflow-hidden">
       {/* Efeitos de luz no fundo */}
       <div className="absolute top-[20%] left-[5%] w-[300px] h-[300px] rounded-full bg-[#a66717]/20 blur-[100px] z-0"></div>
@@ -28,7 +32,13 @@ const Login = () => {
         <div className="backdrop-blur-xl bg-black/40 border border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.3)] rounded-xl p-10 w-full max-w-[440px] px-[40px] py-[34px]">
           {/* Logo */}
           <div className="flex flex-col items-center mb-8">
-            <img alt="Lucre AI Logo" src="/lovable-uploads/2fd94bd6-03c9-49b7-9803-325063495f65.png" className="h-20 mb-6" />
+            <Link to="/">
+              <img 
+                alt="Lucre AI Logo" 
+                src="/lovable-uploads/2fd94bd6-03c9-49b7-9803-325063495f65.png" 
+                className="h-20 mb-6 cursor-pointer" 
+              />
+            </Link>
             <h1 className="text-2xl font-semibold text-white">Acesse sua conta</h1>
           </div>
           
@@ -84,4 +94,5 @@ const Login = () => {
       </div>
     </div>;
 };
+
 export default Login;
