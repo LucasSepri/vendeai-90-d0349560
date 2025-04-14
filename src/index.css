@@ -129,4 +129,21 @@
   .glass-card {
     @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg;
   }
+  
+  /* Estilos específicos para telas de autenticação */
+  input:focus {
+    @apply outline-none ring-1 ring-vendeai-gold border-vendeai-gold;
+  }
+  
+  .auth-background {
+    background: linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(166,103,23,0.8) 100%);
+  }
+  
+  .form-control-animated input {
+    @apply transition-all duration-300;
+  }
+  
+  .form-control-animated input:focus {
+    @apply transform -translate-y-1;
+  }
 }
