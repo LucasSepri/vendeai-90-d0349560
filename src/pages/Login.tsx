@@ -129,7 +129,7 @@ const Login = () => {
                       {...field}
                       placeholder="Seu E-mail"
                       type="email"
-                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
+                      className="bg-transparent border border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white rounded-md"
                       disabled={isLoading}
                     />
                   </div>
@@ -151,7 +151,7 @@ const Login = () => {
                       {...field}
                       type={showPassword ? "text" : "password"}
                       placeholder="Sua Senha"
-                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 pr-10 h-12 text-white"
+                      className="bg-transparent border border-vendeai-gold/30 focus:border-vendeai-gold pl-10 pr-10 h-12 text-white rounded-md"
                       disabled={isLoading}
                     />
                     <button
@@ -172,10 +172,10 @@ const Login = () => {
             )}
           />
           
-          <div className="pt-2">
+          <div className="pt-4">
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-vendeai-darkgold to-vendeai-gold hover:from-vendeai-gold hover:to-vendeai-darkgold text-white font-medium h-12 flex items-center justify-center gap-2 shadow-lg"
+              className="w-full bg-white hover:bg-vendeai-gold text-black font-medium h-12 flex items-center justify-center gap-2 rounded-md transition-colors"
               disabled={isLoading}
             >
               {isLoading ? "Entrando..." : "Acessar sua conta"}
