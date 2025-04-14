@@ -1,176 +1,72 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Lock, Mail, AlertTriangle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-const loginSchema = z.object({
-  email: z.string().email("E-mail inválido").min(1, "E-mail é obrigatório"),
-  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres")
-});
-type LoginFormValues = z.infer<typeof loginSchema>;
+
+import React, { useState } from 'react';
+import { Eye, EyeOff, Mail, Lock } from 'lucide-react';
+import AuthLayout from '../components/auth/AuthLayout';
+
 const Login = () => {
-  const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [ipAddress, setIpAddress] = useState("");
-  const [loginError, setLoginError] = useState("");
-  useEffect(() => {
-    const getIpAddress = async () => {
-      try {
-        const response = await fetch("https://api.ipify.org?format=json");
-        const data = await response.json();
-        setIpAddress(data.ip);
-      } catch (error) {
-        console.error("Failed to get IP address:", error);
-        setIpAddress("127.0.0.1");
-      }
-    };
-    getIpAddress();
-  }, []);
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: ""
-    }
-  });
-  const onSubmit = async (data: LoginFormValues) => {
-    setIsLoading(true);
-    setLoginError("");
-    try {
-      const users = JSON.parse(localStorage.getItem('vendeai_users') || '[]');
-      const user = users.find((u: any) => u.email === data.email);
-      if (!user) {
-        setLoginError("Conta não encontrada. Verifique seus dados ou crie uma conta.");
-        setIsLoading(false);
-        return;
-      }
-      if (user.password !== data.password) {
-        setLoginError("Senha incorreta. Tente novamente.");
-        setIsLoading(false);
-        return;
-      }
-      if (user.ipAddress && user.ipAddress !== ipAddress) {
-        setLoginError("Acesso não autorizado. Esta conta só pode ser acessada do dispositivo original.");
-        setIsLoading(false);
-        return;
-      }
-      localStorage.setItem('vendeai_currentUser', JSON.stringify({
-        email: user.email,
-        referralCode: user.referralCode,
-        companyName: user.companyName,
-        ownerName: user.ownerName,
-        plan: user.plan,
-        referrals: user.referrals || 0,
-        ipAddress: ipAddress
-      }));
-      toast({
-        title: "Login bem-sucedido",
-        description: "Bem-vindo de volta ao VendeAI!"
-      });
-      navigate("/dashboard");
-    } catch (error) {
-      toast({
-        title: "Erro ao fazer login",
-        description: "Ocorreu um problema ao processar seu login. Tente novamente.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle login logic here
+    console.log('Login attempt with:', { email, password });
   };
-  return <div className="min-h-screen bg-vendeai flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <Link to="/" className="inline-block">
-            <div className="flex justify-center mb-2 px-0 my-0 py-[5px]">
-              <img alt="Lucre AI Logo" src="/lovable-uploads/d8f0ed69-36f2-4092-bc51-10156dca574a.png" className="h-20" />
-            </div>
-          </Link>
-          
+
+  return (
+    <AuthLayout
+      title="Acesse sua conta"
+      subtitle="Se você já possui uma conta, preencha seus dados de acesso à plataforma."
+      buttonText="Acessar sua conta"
+      onSubmit={handleSubmit}
+      forgotPasswordLink={true}
+      alternateActionText="Não tem uma conta?"
+      alternateActionLink="/register"
+      alternateActionLinkText="Criar uma nova conta"
+    >
+      <div className="space-y-4">
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <Mail className="h-5 w-5 text-gray-500" />
+          </div>
+          <input
+            type="email"
+            className="w-full bg-black border border-gray-700 text-white rounded p-3 pl-10 focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
+            placeholder="Seu E-mail"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
         
-        <Card className="border-vendeai-gold/20 shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-vendeai text-2xl">Acessar sua conta</CardTitle>
-            <CardDescription>
-              Digite suas credenciais para acessar a plataforma
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {loginError && <div className="mb-4 p-3 bg-destructive/20 border border-destructive/50 rounded-md flex items-start gap-2">
-                <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
-                <p className="text-sm text-destructive">{loginError}</p>
-              </div>}
-            
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField control={form.control} name="email" render={({
-                field
-              }) => <FormItem>
-                      <FormLabel>E-mail</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input {...field} placeholder="seu@email.com.br" type="email" className="pl-10" disabled={isLoading} />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>} />
-                
-                <FormField control={form.control} name="password" render={({
-                field
-              }) => <FormItem>
-                      <FormLabel>Senha</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input {...field} type="password" placeholder="********" className="pl-10" disabled={isLoading} />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>} />
-                
-                <Button type="submit" className="w-full gradient-gold" disabled={isLoading}>
-                  {isLoading ? "Entrando..." : "Entrar"}
-                </Button>
-              </form>
-            </Form>
-            
-            <div className="mt-4 text-sm text-center">
-              <Link to="/forgot-password" className="text-vendeai-gold hover:underline">
-                Esqueceu sua senha?
-              </Link>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-center border-t border-vendeai-gold/10 pt-4">
-            <div className="text-sm text-center">
-              Não tem uma conta?{" "}
-              <Link to="/register" className="text-vendeai-gold hover:underline font-medium">
-                Criar conta agora
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
-        
-        <div className="mt-6 text-center">
-          <div className="flex items-center gap-2 justify-center text-vendeai-lightgray">
-            <AlertTriangle size={16} />
-            <p className="text-xs">Acesso exclusivo para usuários registrados</p>
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <Lock className="h-5 w-5 text-gray-500" />
           </div>
-          <p className="text-xs text-vendeai-lightgray mt-2">
-            Use de forma exclusiva. Indique para ganhar benefícios.
-          </p>
+          <input
+            type={showPassword ? "text" : "password"}
+            className="w-full bg-black border border-gray-700 text-white rounded p-3 pl-10 pr-10 focus:border-gold-500 focus:ring-1 focus:ring-gold-500"
+            placeholder="Sua Senha"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <button
+            type="button"
+            className="absolute inset-y-0 right-0 flex items-center pr-3"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? (
+              <EyeOff className="h-5 w-5 text-gray-500" />
+            ) : (
+              <Eye className="h-5 w-5 text-gray-500" />
+            )}
+          </button>
         </div>
       </div>
-    </div>;
+    </AuthLayout>
+  );
 };
+
 export default Login;
