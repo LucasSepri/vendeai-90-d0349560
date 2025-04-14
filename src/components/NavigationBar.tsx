@@ -8,7 +8,7 @@ const NavigationBar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
   return <header className="w-full bg-black border-b border-vendeai-gold/20 py-0">
-      <div className="container mx-auto px-[40px] py-0">
+      <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
             <Link to="/" className="flex items-center">
