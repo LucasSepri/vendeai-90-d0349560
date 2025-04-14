@@ -1,18 +1,13 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Menu, X, LogIn, UserPlus } from "lucide-react";
 import { Link } from "react-router-dom";
-
 const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-  
-  return (
-    <header className="w-full bg-black py-4 border-b border-vendeai-gold/20">
+  return <header className="w-full bg-black py-4 border-b border-vendeai-gold/20">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
@@ -31,7 +26,7 @@ const NavigationBar = () => {
               <Link to="/register">
                 <UserPlus size={18} className="mr-2 transition-all duration-300" />
                 <span>Criar conta</span>
-                <span className="absolute inset-0 rounded-md border border-vendeai-gold -m-[1px] opacity-30 group-hover:opacity-0 transition-all duration-300"></span>
+                
               </Link>
             </Button>
           </div>
@@ -43,8 +38,7 @@ const NavigationBar = () => {
         </div>
         
         {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <nav className="md:hidden bg-black pt-4 pb-6 px-4 mt-2 rounded-lg border border-vendeai-gold/20 shadow-lg animate-fade-in">
+        {isMenuOpen && <nav className="md:hidden bg-black pt-4 pb-6 px-4 mt-2 rounded-lg border border-vendeai-gold/20 shadow-lg animate-fade-in">
             <div className="flex flex-col space-y-4">
               <Link to="/login" className="text-white hover:text-vendeai-gold transition duration-300 py-2 flex items-center" onClick={toggleMenu}>
                 <LogIn size={18} className="mr-2" />
@@ -57,11 +51,8 @@ const NavigationBar = () => {
                 </Link>
               </Button>
             </div>
-          </nav>
-        )}
+          </nav>}
       </div>
-    </header>
-  );
+    </header>;
 };
-
 export default NavigationBar;
