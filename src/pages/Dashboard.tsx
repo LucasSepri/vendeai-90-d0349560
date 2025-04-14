@@ -6,14 +6,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
 import AIAssistant from "@/components/AIAssistant";
-
 const Dashboard = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
-
   const menuItems = [{
     icon: MessageSquare,
     label: "Funil com IA",
@@ -42,7 +42,6 @@ const Dashboard = () => {
     path: "/dashboard/site-generator",
     highlight: true
   }];
-
   useEffect(() => {
     const storedUser = localStorage.getItem('vendeai_currentUser');
     if (!storedUser) {
@@ -64,7 +63,6 @@ const Dashboard = () => {
       setLoading(false);
     }
   }, [navigate, toast]);
-
   const handleLogout = () => {
     localStorage.removeItem('vendeai_currentUser');
     toast({
@@ -73,34 +71,26 @@ const Dashboard = () => {
     });
     navigate('/login');
   };
-
   if (loading) {
     return <div className="min-h-screen bg-vendeai flex items-center justify-center">
         <div className="text-white">Carregando...</div>
       </div>;
   }
-
   const referralsNeeded = 15;
   const referralsProgress = Math.min(100, (userData?.referrals || 0) / referralsNeeded * 100);
   const referralsRemaining = Math.max(0, referralsNeeded - (userData?.referrals || 0));
-
-  return (
-    <div className="min-h-screen bg-vendeai flex flex-col">
+  return <div className="min-h-screen bg-vendeai flex flex-col">
       <AIAssistant open={isAssistantOpen} onOpenChange={setIsAssistantOpen} />
       
       <div className="flex flex-1">
         <div className="hidden md:flex w-64 flex-col bg-vendeai border-r border-vendeai-gold/20 fixed h-full">
-          <div className="p-4 border-b border-vendeai-gold/20">
+          <div className="p-4 border-b border-vendeai-gold/20 bg-black">
             <Link to="/" className="flex items-center gap-2 mb-4">
-              <img 
-                src="/lovable-uploads/a82f2ab5-9796-41d6-a7b6-2ab258f14a9b.png" 
-                alt="Lucre AI Logo" 
-                className="h-12" 
-              />
+              <img src="/lovable-uploads/a82f2ab5-9796-41d6-a7b6-2ab258f14a9b.png" alt="Lucre AI Logo" className="h-12" />
             </Link>
           </div>
           
-          <nav className="flex-1 p-4">
+          <nav className="flex-1 p-4 bg-black">
             <div className="space-y-1 bg-inherit">
               <Button variant="ghost" className="w-full justify-start text-white gap-3 hover:bg-vendeai-gold/10 hover:text-vendeai-gold">
                 <LayoutDashboard className="h-5 w-5" />
@@ -154,16 +144,12 @@ const Dashboard = () => {
         </div>
         
         <div className="flex-1 md:ml-64">
-          <header className="bg-vendeai border-b border-vendeai-gold/20 py-4 px-6 sticky top-0 z-10">
+          <header className="border-b border-vendeai-gold/20 py-4 px-6 sticky top-0 z-10 bg-black">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3 md:hidden">
                 <Link to="/">
                   <div className="flex items-center gap-2">
-                    <img 
-                      src="/lovable-uploads/9e4e3bad-03fc-4d24-93a7-2635f07eec3a.png" 
-                      alt="Lucre AI Logo" 
-                      className="h-8" 
-                    />
+                    <img src="/lovable-uploads/9e4e3bad-03fc-4d24-93a7-2635f07eec3a.png" alt="Lucre AI Logo" className="h-8" />
                   </div>
                 </Link>
               </div>
@@ -188,11 +174,11 @@ const Dashboard = () => {
             </div>
           </header>
           
-          <main className="p-6">
+          <main className="p-6 bg-black">
             <div className="grid gap-6 mb-8">
               <Card className="border-vendeai-gold/20 shadow-md bg-gradient-to-r from-vendeai to-vendeai">
                 <CardHeader>
-                  <CardTitle className="text-white">
+                  <CardTitle className="text-black">
                     Bem-vindo ao LucreAI, {userData?.ownerName?.split(' ')[0] || 'Usuário'}!
                   </CardTitle>
                   <CardDescription className="text-vendeai-lightgray">
@@ -202,7 +188,7 @@ const Dashboard = () => {
                 <CardContent>
                   <div className="flex items-center gap-2 mb-2">
                     <Crown className="h-5 w-5 text-vendeai-gold" />
-                    <span className="text-white">
+                    <span className="text-black">
                       Seu plano atual: <span className="text-vendeai-gold font-medium">
                         {userData?.plan === 'free' ? 'Gratuito' : userData?.plan === 'pro' ? 'Profissional' : 'Premium'}
                       </span>
@@ -432,8 +418,6 @@ const Dashboard = () => {
           </main>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default Dashboard;
