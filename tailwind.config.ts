@@ -32,6 +32,10 @@ export default {
         lucreai: {
           gold: "#a66717",
         },
+        vendeai: {
+          gold: "#a66717",
+          lightgold: "#d4af37",
+        },
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
