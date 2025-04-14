@@ -1,31 +1,27 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Mail, Lock, AlertTriangle, ArrowRight, Eye, EyeOff } from "lucide-react";
+import { Lock, Mail, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import AuthLayout from "@/components/auth/AuthLayout";
-
 const loginSchema = z.object({
   email: z.string().email("E-mail inválido").min(1, "E-mail é obrigatório"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres")
 });
-
 type LoginFormValues = z.infer<typeof loginSchema>;
-
 const Login = () => {
   const navigate = useNavigate();
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
   const [loginError, setLoginError] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-
   useEffect(() => {
     const getIpAddress = async () => {
       try {
@@ -39,7 +35,6 @@ const Login = () => {
     };
     getIpAddress();
   }, []);
-
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -47,33 +42,27 @@ const Login = () => {
       password: ""
     }
   });
-
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     setLoginError("");
-    
     try {
       const users = JSON.parse(localStorage.getItem('vendeai_users') || '[]');
       const user = users.find((u: any) => u.email === data.email);
-      
       if (!user) {
         setLoginError("Conta não encontrada. Verifique seus dados ou crie uma conta.");
         setIsLoading(false);
         return;
       }
-      
       if (user.password !== data.password) {
         setLoginError("Senha incorreta. Tente novamente.");
         setIsLoading(false);
         return;
       }
-      
       if (user.ipAddress && user.ipAddress !== ipAddress) {
         setLoginError("Acesso não autorizado. Esta conta só pode ser acessada do dispositivo original.");
         setIsLoading(false);
         return;
       }
-      
       localStorage.setItem('vendeai_currentUser', JSON.stringify({
         email: user.email,
         referralCode: user.referralCode,
@@ -83,12 +72,10 @@ const Login = () => {
         referrals: user.referrals || 0,
         ipAddress: ipAddress
       }));
-      
       toast({
         title: "Login bem-sucedido",
         description: "Bem-vindo de volta ao VendeAI!"
       });
-      
       navigate("/dashboard");
     } catch (error) {
       toast({
@@ -100,101 +87,90 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-
-  const togglePasswordVisibility = () => setShowPassword(!showPassword);
-
-  return (
-    <AuthLayout 
-      title="Acesse sua conta" 
-      subtitle="Se você já possui uma conta, preencha seus dados de acesso à plataforma."
-    >
-      {loginError && (
-        <div className="mb-6 p-3 bg-destructive/10 border border-destructive/30 rounded-md flex items-start gap-2">
-          <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
-          <p className="text-sm text-destructive">{loginError}</p>
+  return <div className="min-h-screen bg-vendeai flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        <div className="mb-8 text-center">
+          <Link to="/" className="inline-block">
+            <div className="flex justify-center mb-2 px-0 my-0 py-[5px]">
+              <img alt="Lucre AI Logo" src="/lovable-uploads/d8f0ed69-36f2-4092-bc51-10156dca574a.png" className="h-20" />
+            </div>
+          </Link>
+          
         </div>
-      )}
-      
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                    <Input
-                      {...field}
-                      placeholder="Seu E-mail"
-                      type="email"
-                      className="bg-transparent border border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white rounded-md"
-                      disabled={isLoading}
-                    />
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <div className="relative">
-                    <Lock className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-                    <Input
-                      {...field}
-                      type={showPassword ? "text" : "password"}
-                      placeholder="Sua Senha"
-                      className="bg-transparent border border-vendeai-gold/30 focus:border-vendeai-gold pl-10 pr-10 h-12 text-white rounded-md"
-                      disabled={isLoading}
-                    />
-                    <button
-                      type="button"
-                      onClick={togglePasswordVisibility}
-                      className="absolute right-3 top-2.5 text-gray-400 hover:text-white"
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-5 w-5" />
-                      ) : (
-                        <Eye className="h-5 w-5" />
-                      )}
-                    </button>
-                  </div>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <div className="pt-4">
-            <Button
-              type="submit"
-              className="w-full bg-white hover:bg-vendeai-gold text-black font-medium h-12 flex items-center justify-center gap-2 rounded-md transition-colors"
-              disabled={isLoading}
-            >
-              {isLoading ? "Entrando..." : "Acessar sua conta"}
-              <ArrowRight className="h-4 w-4" />
-            </Button>
+        
+        <Card className="border-vendeai-gold/20 shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-vendeai text-2xl">Acessar sua conta</CardTitle>
+            <CardDescription>
+              Digite suas credenciais para acessar a plataforma
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {loginError && <div className="mb-4 p-3 bg-destructive/20 border border-destructive/50 rounded-md flex items-start gap-2">
+                <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+                <p className="text-sm text-destructive">{loginError}</p>
+              </div>}
+            
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <FormField control={form.control} name="email" render={({
+                field
+              }) => <FormItem>
+                      <FormLabel>E-mail</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Input {...field} placeholder="seu@email.com.br" type="email" className="pl-10" disabled={isLoading} />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>} />
+                
+                <FormField control={form.control} name="password" render={({
+                field
+              }) => <FormItem>
+                      <FormLabel>Senha</FormLabel>
+                      <FormControl>
+                        <div className="relative">
+                          <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+                          <Input {...field} type="password" placeholder="********" className="pl-10" disabled={isLoading} />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>} />
+                
+                <Button type="submit" className="w-full gradient-gold" disabled={isLoading}>
+                  {isLoading ? "Entrando..." : "Entrar"}
+                </Button>
+              </form>
+            </Form>
+            
+            <div className="mt-4 text-sm text-center">
+              <Link to="/forgot-password" className="text-vendeai-gold hover:underline">
+                Esqueceu sua senha?
+              </Link>
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-center border-t border-vendeai-gold/10 pt-4">
+            <div className="text-sm text-center">
+              Não tem uma conta?{" "}
+              <Link to="/register" className="text-vendeai-gold hover:underline font-medium">
+                Criar conta agora
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>
+        
+        <div className="mt-6 text-center">
+          <div className="flex items-center gap-2 justify-center text-vendeai-lightgray">
+            <AlertTriangle size={16} />
+            <p className="text-xs">Acesso exclusivo para usuários registrados</p>
           </div>
-        </form>
-      </Form>
-      
-      <div className="flex justify-between mt-8 text-sm">
-        <Link to="/forgot-password" className="text-gray-400 hover:text-vendeai-gold transition-colors">
-          Esqueceu sua senha?
-        </Link>
-        <Link to="/register" className="text-vendeai-gold hover:text-vendeai-lightgold transition-colors flex items-center gap-1">
-          Criar uma nova conta <ArrowRight className="h-3 w-3" />
-        </Link>
+          <p className="text-xs text-vendeai-lightgray mt-2">
+            Use de forma exclusiva. Indique para ganhar benefícios.
+          </p>
+        </div>
       </div>
-    </AuthLayout>
-  );
+    </div>;
 };
-
 export default Login;

@@ -106,25 +106,13 @@ export default {
 				'slide-in': {
 					'0%': { transform: 'translateY(20px)', opacity: '0' },
 					'100%': { transform: 'translateY(0)', opacity: '1' }
-				},
-				'pulse-gold': {
-					'0%, 100%': { 
-						boxShadow: '0 0 0 0 rgba(166, 103, 23, 0.7)' 
-					},
-					'50%': { 
-						boxShadow: '0 0 0 10px rgba(166, 103, 23, 0)' 
-					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'fade-in': 'fade-in 0.5s ease-out forwards',
-				'slide-in': 'slide-in 0.7s ease-out forwards',
-				'pulse-gold': 'pulse-gold 2s infinite'
-			},
-			backgroundImage: {
-				'gradient-auth': 'linear-gradient(135deg, rgba(0,0,0,0.95) 0%, rgba(166,103,23,0.8) 100%)',
+				'slide-in': 'slide-in 0.7s ease-out forwards'
 			}
 		}
 	},
