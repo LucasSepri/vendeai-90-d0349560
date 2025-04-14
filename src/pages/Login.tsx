@@ -1,13 +1,17 @@
+
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+  const { toast } = useToast();
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,7 +19,29 @@ const Login = () => {
       email,
       password
     });
-    // Implementação futura do login
+    
+    // Simular autenticação bem-sucedida
+    // Em uma implementação real, você validaria as credenciais com um backend
+    const mockUser = {
+      id: "1",
+      email: email,
+      ownerName: "Usuário Teste",
+      plan: "free",
+      referralCode: "LUCRE123",
+      referrals: 5
+    };
+    
+    // Guardar informações do usuário no localStorage
+    localStorage.setItem('vendeai_currentUser', JSON.stringify(mockUser));
+    
+    // Mostrar mensagem de sucesso
+    toast({
+      title: "Login bem-sucedido",
+      description: "Bem-vindo de volta à plataforma!",
+    });
+    
+    // Redirecionar para o dashboard
+    navigate('/dashboard');
   };
 
   const togglePasswordVisibility = () => {
