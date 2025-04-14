@@ -179,7 +179,7 @@ const Register = () => {
                     <Input
                       {...field}
                       placeholder="Nome da empresa"
-                      className="bg-black border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
+                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
                       disabled={isLoading}
                     />
                   </div>
@@ -200,7 +200,7 @@ const Register = () => {
                     <Input
                       {...field}
                       placeholder="Nome do responsável"
-                      className="bg-black border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
+                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
                       disabled={isLoading}
                     />
                   </div>
@@ -222,7 +222,7 @@ const Register = () => {
                       {...field}
                       placeholder="Seu e-mail"
                       type="email"
-                      className="bg-black border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
+                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
                       disabled={isLoading}
                     />
                   </div>
@@ -244,7 +244,7 @@ const Register = () => {
                       {...field}
                       type={showPassword ? "text" : "password"}
                       placeholder="Crie sua senha"
-                      className="bg-black border-vendeai-gold/30 focus:border-vendeai-gold pl-10 pr-10 h-12 text-white"
+                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 pr-10 h-12 text-white"
                       disabled={isLoading}
                     />
                     <button
@@ -276,7 +276,7 @@ const Register = () => {
                     <Input
                       {...field}
                       placeholder="Código de indicação (opcional)"
-                      className="bg-black border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
+                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
                       disabled={isLoading}
                     />
                   </div>
@@ -302,8 +302,8 @@ const Register = () => {
                     {Object.entries(planInfo).map(([planKey, plan]) => (
                       <div 
                         key={planKey}
-                        className={`flex items-center space-x-2 rounded-md border p-3 cursor-pointer hover:bg-black/60 transition-colors ${
-                          field.value === planKey ? 'border-vendeai-gold bg-black/20' : 'border-gray-800'
+                        className={`flex items-center space-x-2 rounded-md border p-3 cursor-pointer hover:bg-black/60 backdrop-blur-sm transition-colors ${
+                          field.value === planKey ? 'border-vendeai-gold bg-white/5' : 'border-gray-800 bg-transparent'
                         }`}
                         onClick={() => form.setValue('plan', planKey as any)}
                       >
@@ -338,7 +338,7 @@ const Register = () => {
           <div className="pt-4">
             <Button 
               type="submit" 
-              className="w-full bg-white hover:bg-gray-100 text-black font-medium h-12 flex items-center justify-center gap-2" 
+              className="w-full bg-gradient-to-r from-vendeai-darkgold to-vendeai-gold hover:from-vendeai-gold hover:to-vendeai-darkgold text-white font-medium h-12 flex items-center justify-center gap-2 shadow-lg" 
               disabled={isLoading}
             >
               {isLoading ? "Criando conta..." : "Criar conta"}

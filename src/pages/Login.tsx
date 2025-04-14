@@ -116,7 +116,7 @@ const Login = () => {
       )}
       
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField
             control={form.control}
             name="email"
@@ -129,7 +129,7 @@ const Login = () => {
                       {...field}
                       placeholder="Seu E-mail"
                       type="email"
-                      className="bg-black border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
+                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 h-12 text-white"
                       disabled={isLoading}
                     />
                   </div>
@@ -151,7 +151,7 @@ const Login = () => {
                       {...field}
                       type={showPassword ? "text" : "password"}
                       placeholder="Sua Senha"
-                      className="bg-black border-vendeai-gold/30 focus:border-vendeai-gold pl-10 pr-10 h-12 text-white"
+                      className="bg-transparent border-vendeai-gold/30 focus:border-vendeai-gold pl-10 pr-10 h-12 text-white"
                       disabled={isLoading}
                     />
                     <button
@@ -175,7 +175,7 @@ const Login = () => {
           <div className="pt-2">
             <Button
               type="submit"
-              className="w-full bg-white hover:bg-gray-100 text-black font-medium h-12 flex items-center justify-center gap-2"
+              className="w-full bg-gradient-to-r from-vendeai-darkgold to-vendeai-gold hover:from-vendeai-gold hover:to-vendeai-darkgold text-white font-medium h-12 flex items-center justify-center gap-2 shadow-lg"
               disabled={isLoading}
             >
               {isLoading ? "Entrando..." : "Acessar sua conta"}

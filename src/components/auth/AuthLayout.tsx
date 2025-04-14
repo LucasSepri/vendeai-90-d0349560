@@ -33,7 +33,9 @@ const AuthLayout = ({
             {subtitle && <p className="text-gray-400 text-sm">{subtitle}</p>}
           </div>
           
-          {children}
+          <div className="glass-card backdrop-blur-md bg-white/5 border border-vendeai-gold/20 rounded-xl p-6 shadow-xl">
+            {children}
+          </div>
         </div>
         
         <div className="mt-6 pt-6 border-t border-vendeai-gold/20 text-xs text-gray-500">
