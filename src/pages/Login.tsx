@@ -1,28 +1,40 @@
-import { useState, useEffect } from "react";
+
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Lock, Mail, AlertTriangle } from "lucide-react";
+import { ArrowRight, Eye, EyeOff, AlertTriangle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
 const loginSchema = z.object({
   email: z.string().email("E-mail inválido").min(1, "E-mail é obrigatório"),
   password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres")
 });
+
 type LoginFormValues = z.infer<typeof loginSchema>;
+
 const Login = () => {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
   const [loginError, setLoginError] = useState("");
-  useEffect(() => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: ""
+    }
+  });
+
+  useState(() => {
     const getIpAddress = async () => {
       try {
         const response = await fetch("https://api.ipify.org?format=json");
@@ -34,35 +46,33 @@ const Login = () => {
       }
     };
     getIpAddress();
-  }, []);
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      email: "",
-      password: ""
-    }
   });
+
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
     setLoginError("");
     try {
       const users = JSON.parse(localStorage.getItem('vendeai_users') || '[]');
       const user = users.find((u: any) => u.email === data.email);
+      
       if (!user) {
         setLoginError("Conta não encontrada. Verifique seus dados ou crie uma conta.");
         setIsLoading(false);
         return;
       }
+      
       if (user.password !== data.password) {
         setLoginError("Senha incorreta. Tente novamente.");
         setIsLoading(false);
         return;
       }
+      
       if (user.ipAddress && user.ipAddress !== ipAddress) {
         setLoginError("Acesso não autorizado. Esta conta só pode ser acessada do dispositivo original.");
         setIsLoading(false);
         return;
       }
+      
       localStorage.setItem('vendeai_currentUser', JSON.stringify({
         email: user.email,
         referralCode: user.referralCode,
@@ -72,10 +82,12 @@ const Login = () => {
         referrals: user.referrals || 0,
         ipAddress: ipAddress
       }));
+      
       toast({
         title: "Login bem-sucedido",
         description: "Bem-vindo de volta ao VendeAI!"
       });
+      
       navigate("/dashboard");
     } catch (error) {
       toast({
@@ -87,90 +99,132 @@ const Login = () => {
       setIsLoading(false);
     }
   };
-  return <div className="min-h-screen bg-vendeai flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="mb-8 text-center">
-          <Link to="/" className="inline-block">
-            <div className="flex justify-center mb-2 px-0 my-0 py-[5px]">
-              <img alt="Lucre AI Logo" src="/lovable-uploads/d8f0ed69-36f2-4092-bc51-10156dca574a.png" className="h-20" />
-            </div>
-          </Link>
+
+  return (
+    <div className="min-h-screen flex flex-col md:flex-row bg-black overflow-hidden">
+      {/* Coluna do formulário */}
+      <div className="w-full md:w-1/2 lg:w-2/5 flex flex-col justify-center p-6 md:p-12 lg:p-16 relative z-10">
+        <div className="max-w-md mx-auto w-full">
+          {/* Logo */}
+          <div className="mb-8">
+            <Link to="/" className="inline-block">
+              <img 
+                alt="Lucre AI Logo" 
+                src="/lovable-uploads/d8f0ed69-36f2-4092-bc51-10156dca574a.png" 
+                className="h-16 object-contain"
+              />
+            </Link>
+          </div>
           
-        </div>
-        
-        <Card className="border-vendeai-gold/20 shadow-lg">
-          <CardHeader>
-            <CardTitle className="text-vendeai text-2xl">Acessar sua conta</CardTitle>
-            <CardDescription>
-              Digite suas credenciais para acessar a plataforma
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            {loginError && <div className="mb-4 p-3 bg-destructive/20 border border-destructive/50 rounded-md flex items-start gap-2">
-                <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
-                <p className="text-sm text-destructive">{loginError}</p>
-              </div>}
+          {/* Título e subtítulo */}
+          <div className="mb-8">
+            <h1 className="text-2xl font-medium text-white mb-2">Acesse sua conta</h1>
+            <p className="text-white/70">
+              Se você já possui uma conta, preencha seus dados de acesso à plataforma.
+            </p>
+          </div>
+          
+          {/* Mensagem de erro */}
+          {loginError && (
+            <div className="mb-6 p-3 bg-destructive/20 border border-destructive/50 rounded-md flex items-start gap-2">
+              <AlertTriangle className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+              <p className="text-sm text-destructive">{loginError}</p>
+            </div>
+          )}
+          
+          {/* Formulário */}
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+            {/* Email */}
+            <div className="space-y-1.5">
+              <label htmlFor="email" className="text-sm text-white/90 font-medium">
+                Seu E-mail
+              </label>
+              <div className="relative">
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="seu@email.com.br"
+                  className={`login-input ${errors.email ? 'border-destructive' : ''}`}
+                  disabled={isLoading}
+                  {...register("email")}
+                />
+              </div>
+              {errors.email && (
+                <p className="text-xs text-destructive">{errors.email.message}</p>
+              )}
+            </div>
             
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField control={form.control} name="email" render={({
-                field
-              }) => <FormItem>
-                      <FormLabel>E-mail</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Mail className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input {...field} placeholder="seu@email.com.br" type="email" className="pl-10" disabled={isLoading} />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>} />
-                
-                <FormField control={form.control} name="password" render={({
-                field
-              }) => <FormItem>
-                      <FormLabel>Senha</FormLabel>
-                      <FormControl>
-                        <div className="relative">
-                          <Lock className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
-                          <Input {...field} type="password" placeholder="********" className="pl-10" disabled={isLoading} />
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>} />
-                
-                <Button type="submit" className="w-full gradient-gold" disabled={isLoading}>
-                  {isLoading ? "Entrando..." : "Entrar"}
-                </Button>
-              </form>
-            </Form>
+            {/* Senha */}
+            <div className="space-y-1.5">
+              <label htmlFor="password" className="text-sm text-white/90 font-medium">
+                Sua Senha
+              </label>
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="••••••••"
+                  className={`login-input pr-10 ${errors.password ? 'border-destructive' : ''}`}
+                  disabled={isLoading}
+                  {...register("password")}
+                />
+                <button
+                  type="button"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-xs text-destructive">{errors.password.message}</p>
+              )}
+            </div>
             
-            <div className="mt-4 text-sm text-center">
-              <Link to="/forgot-password" className="text-vendeai-gold hover:underline">
+            {/* Botão de login */}
+            <button
+              type="submit"
+              className="login-button mt-6"
+              disabled={isLoading}
+            >
+              {isLoading ? "Entrando..." : "Acessar sua conta"}
+              {!isLoading && <ArrowRight className="h-4 w-4" />}
+            </button>
+            
+            {/* Links auxiliares */}
+            <div className="flex justify-between pt-4 border-t border-white/10 mt-6 text-sm">
+              <Link to="/forgot-password" className="text-white/70 hover:text-vendeai-gold transition-colors">
                 Esqueceu sua senha?
               </Link>
-            </div>
-          </CardContent>
-          <CardFooter className="flex justify-center border-t border-vendeai-gold/10 pt-4">
-            <div className="text-sm text-center">
-              Não tem uma conta?{" "}
-              <Link to="/register" className="text-vendeai-gold hover:underline font-medium">
-                Criar conta agora
+              
+              <Link to="/register" className="text-white/70 hover:text-white flex items-center gap-1 group transition-colors">
+                Criar uma nova conta
+                <ArrowRight className="h-3.5 w-3.5 opacity-70 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
               </Link>
             </div>
-          </CardFooter>
-        </Card>
-        
-        <div className="mt-6 text-center">
-          <div className="flex items-center gap-2 justify-center text-vendeai-lightgray">
-            <AlertTriangle size={16} />
-            <p className="text-xs">Acesso exclusivo para usuários registrados</p>
-          </div>
-          <p className="text-xs text-vendeai-lightgray mt-2">
-            Use de forma exclusiva. Indique para ganhar benefícios.
-          </p>
+          </form>
         </div>
       </div>
-    </div>;
+      
+      {/* Coluna da imagem/tagline */}
+      <div className="w-full md:w-1/2 lg:w-3/5 hidden md:flex items-center justify-center relative overflow-hidden login-gradient">
+        {/* Efeitos de luz */}
+        <div className="light-spot bg-vendeai-gold/30 w-96 h-96 top-1/4 -left-24"></div>
+        <div className="light-spot bg-purple-700/40 w-96 h-96 bottom-1/4 right-1/4"></div>
+        
+        {/* Tagline */}
+        <div className="max-w-lg px-10">
+          <h2 className="tagline">
+            Você é <span className="login-highlight">único.</span>
+          </h2>
+        </div>
+      </div>
+    </div>
+  );
 };
+
 export default Login;

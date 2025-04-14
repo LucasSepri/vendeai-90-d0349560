@@ -74,7 +74,8 @@ export default {
 					lightgold: '#c48c40',
 					darkgold: '#7e4e11',
 					gray: '#333333',
-					lightgray: '#F1F1F1'
+					lightgray: '#F1F1F1',
+					purple: '#6a0c7c' // Nova cor para o degradê do login
 				}
 			},
 			borderRadius: {

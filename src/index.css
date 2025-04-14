@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -128,5 +129,33 @@
   
   .glass-card {
     @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl shadow-lg;
+  }
+  
+  /* Novos estilos para o login da LucreAI */
+  .login-gradient {
+    @apply bg-gradient-to-br from-[#200122] via-[#3a0a4a] to-[#6a0c7c];
+  }
+  
+  .login-input {
+    @apply bg-transparent border border-white/20 text-white w-full px-4 py-3 rounded-md 
+    focus:border-vendeai-gold focus:ring-1 focus:ring-vendeai-gold transition-all duration-300
+    placeholder:text-white/60;
+  }
+  
+  .login-button {
+    @apply bg-white text-black hover:bg-vendeai-gold hover:text-white w-full py-3 px-6 
+    rounded-md transition-colors duration-300 flex items-center justify-center gap-2 font-medium;
+  }
+  
+  .login-highlight {
+    @apply bg-gradient-to-r from-vendeai-gold to-vendeai-lightgold bg-clip-text text-transparent;
+  }
+  
+  .tagline {
+    @apply font-playfair text-7xl md:text-8xl font-normal text-white leading-tight;
+  }
+  
+  .light-spot {
+    @apply absolute rounded-full blur-[100px] opacity-50;
   }
 }
